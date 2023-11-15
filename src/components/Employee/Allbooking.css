@@ -1,0 +1,22 @@
+.booking-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .booking-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    width: calc(33.33% - 20px); /* Adjust the width based on the number of cards per row */
+    min-width: 300px; /* Set a minimum width to prevent cards from becoming too narrow */
+  }
+  
+  .booking-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Add any additional styling you need */
+  

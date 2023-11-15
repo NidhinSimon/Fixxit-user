@@ -1,0 +1,7 @@
+.custom-pin-input {
+    width: 40px; /* Adjust the width as needed */
+    height: 40px; /* Match the height to maintain aspect ratio */
+    font-size: 18px;
+    text-align: center /* Adjust the font size as needed */
+    /* Add any other styles you need */
+  }
