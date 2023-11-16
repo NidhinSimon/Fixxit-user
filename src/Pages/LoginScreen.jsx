@@ -64,7 +64,8 @@ const LoginScreen = () => {
       });
   };
 
-  const onCaptchVerify = () => {
+  const onCaptchVerify = (e) => {
+    e.preventDefault(); 
     const auth = getAuth();
     window.recaptchaVerifier = new RecaptchaVerifier(
       auth,
@@ -72,7 +73,7 @@ const LoginScreen = () => {
       {
         size: "invisible",
         callback: (response) => {
-          handleSubmit();
+          handleSubmit(e); 
         },
         "expired-callback": () => {},
       },
@@ -80,6 +81,7 @@ const LoginScreen = () => {
     );
     PhoneVerify();
   };
+  
 
   const OtpVerify = () => {
     const otpString = otp.join("");
