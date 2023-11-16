@@ -54,7 +54,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/login" element={<LoginScreen />} />
-            <Route path="/" index={true} element={<LoginScreen />} />
+            <Route path="/" index={true} element={< Login/>} />
             <Route path="/register" element={<RegisterScree />} />
             <Route path="/map" element={<MapWithGeocoding />} />
             <Route path="/ji" element={<Juju />} />

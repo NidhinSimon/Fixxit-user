@@ -352,7 +352,7 @@ toast.error("Account Doesnt exist Please Register")
 
   <LoginSocialFacebook
     className=" md:mt-0"
-    appId=""
+    appId="7087144684681528"
     onResolve={(resolve) => {
       console.log(resolve);
       setProfile(resolve.data);
