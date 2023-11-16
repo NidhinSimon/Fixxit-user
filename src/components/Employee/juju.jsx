@@ -57,7 +57,7 @@ const Juju = () => {
     // Append the image files (if selected)
 
     try {
-      const res = await axios.post("http://localhost:5000/emp",{name,age,state,city,licenceimage,profileimage,mobile,email,license});
+      const res = await axios.post("https://fixxit.shop/emp",{name,age,state,city,licenceimage,profileimage,mobile,email,license});
       console.log(res, "------------------------------------------------");
     } catch (error) {
       console.error(error);

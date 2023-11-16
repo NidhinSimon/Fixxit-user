@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UserNav from "./UserNav";
 import { getCategories } from "../api/adminApiRoute";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger"; // Import ScrollTrigger
+
+gsap.registerPlugin(ScrollTrigger);
 
 const UserHome = () => {
   const { userInfo } = useSelector((state) => state.user);
@@ -17,6 +21,9 @@ const UserHome = () => {
       navigate("/home");
     }
   }, [, userInfo]);
+
+
+  
 
   useEffect(() => {
     getCategories()
@@ -71,29 +78,57 @@ const UserHome = () => {
         </div>
       </header>
 
-      <h1 className="text-center mt-16 text-xl font-semibold">OUR SERVICES</h1>
-      <div className="grid grid-cols-2  sm:grid-cols-3 gap-6 ml-12 md:grid-cols-3 lg:grid-cols-4 mx-auto  sm:mx-12 md:ml-36 lg:ml-40 mt-12">
-        {categories.map((category) => (
-          <div
-            onClick={() => handleServiceCLick(category._id)}
-            key={category.id}
-            className="card card-compact w-56 bg-base-100 shadow-xl rounded-2xl border"
-          >
-            <figure>
-              <img
-                src={category.categoryimage}
-                alt={category.name}
-                className="h-48 w-40 mt-6 mx-auto"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title text-center text-lg ">
-                {category.name}
-              </h2>
-            </div>
-          </div>
-        ))}
+      <h1 className="text-center  text-xl font-semibold">OUR SERVICES</h1>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 ml-12 md:grid-cols-3 lg:grid-cols-4 mx-auto sm:mx-12 md:ml-36 lg:ml-40 mt-12">
+  {categories.map((category) => (
+    <div
+      onClick={() => handleServiceCLick(category._id)}
+      key={category.id}
+      className="card card-compact bg-white hover:shadow-xl rounded-2xl overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer animate-on-scroll"
+    >
+      <figure className="overflow-hidden">
+        <img
+          src={category.categoryimage}
+          alt={category.name}
+          className="h-49 w-full object-top "
+        />
+      </figure>
+      <div className="p-4">
+        <h2 className="text-center text-lg font-semibold mb-2">
+          {category.name}
+        </h2>
       </div>
+    </div>
+  ))}
+</div>
+<section className="bg-white p-16">
+  <div className="container mx-auto text-center">
+    <h2 className="text-3xl font-semibold mb-8">How It Works</h2>
+    <div className="flex justify-center space-x-56 relative">
+      <div className="bg-white rounded-full h-60 w-60 flex items-center justify-evenly shadow border">
+        <div className="text-4xl text-blue-500">1</div>
+      </div>
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className=" bg-blue-500 rounded-full"></div>
+        </div>
+        <div className="bg-white rounded-full h-60 w-60 flex items-center justify-evenly shadow-lg relative " style={{top:"30px"}}>
+          <div className="text-4xl text-blue-500">2</div>
+        </div>
+      </div>
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className=" bg-blue-500 rounded-full"></div>
+        </div>
+        <div className="bg-white rounded-full h-60 w-60 flex items-center justify-evenly shadow-lg">
+          <div className="text-4xl text-blue-500">3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
       {/* {Array.from({ length: 6 }, (_, index) => (
     <div

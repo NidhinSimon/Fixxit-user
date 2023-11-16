@@ -3,8 +3,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import { FaTimes } from "react-icons/fa";
 
-const DateModal = ({ handleclose }) => {
+const DateModal = ({ handlereceive ,handleclose}) => {
   const [value, setValue] = useState("");
   const [selectedTime, setSelectedTime] = useState(null);
 
@@ -17,7 +18,7 @@ const DateModal = ({ handleclose }) => {
       const selectedDay = dayjs(value);
       const formattedDate = selectedDay.format("dddd, MMMM D, YYYY");
       toast.success(`Selected time is ${formattedDate} ${selectedTime}`);
-      handleclose(selectedTime, formattedDate);
+      handlereceive(selectedTime, formattedDate);
     } else {
       toast.error("Please select a time.");
     }
@@ -48,6 +49,12 @@ const DateModal = ({ handleclose }) => {
       <Toaster />
       <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
         <div className="relative bg-white rounded-lg shadow p-6 md:p-8 w-80 sm:w-3/5">
+        <button
+            onClick={() => handleclose()}
+            className="absolute top-2 right-2 text-gray-600"
+          >
+            <FaTimes />
+          </button>
           <div className="flex justify-center">
             <DatePicker
               className="w-full h-10"

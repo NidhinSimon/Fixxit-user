@@ -34,7 +34,7 @@ const Modal = ({ closemodal, handlelocation }) => {
 
     setIsLoadingSelectAddress(true);
 
-    const res = await axios.post("http://localhost:5000/users/saveaddress", {
+    const res = await axios.post("https://fixxit.shop/users/saveaddress", {
       userid,
       address,
       longitude,
@@ -59,7 +59,7 @@ const Modal = ({ closemodal, handlelocation }) => {
         container: "map",
         style: "mapbox://styles/mapbox/streets-v11",
         center: [75.862640, 12.250400],
-        zoom: 15,
+        zoom: 17,
       });
 
       setMap(newMap);
@@ -133,48 +133,50 @@ const Modal = ({ closemodal, handlelocation }) => {
   return (
     <div>
       <Toaster />
-      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-30 backdrop-blur-sm mt-10">
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-30 backdrop-blur-sm mt-16">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 w-4/5 h-4/5 flex">
           <div
             className="relative"
             id="map"
-            style={{ width: "100%", height: "565px" }}
+            style={{ width: "100%", height: "500px" }}
           >
             {isLoadingMap ? ( // Display loader when map is loading
               <div className="absolute inset-0 flex items-center justify-center">
                 <Spinner /> {/* Loading spinner */}
               </div>
             ) : (
-              <button
-                className="text-red-500 w-32 absolute inset-x-0 bottom-32 "
-                onClick={handleUseMyLocationClick}
-              >
-                Use My Location
-              </button>
+              <div></div>
+            //   <button
+            //   className="text-white bg-red-500 w-32 absolute bottom-4 left-4 p-2 rounded-md"
+            //   onClick={handleUseMyLocationClick}
+            // >
+            //   Use My Location
+            // </button>
             )}
           </div>
 
-          <div className="w-4/5">
+          <div className="w-4/5 ">
             <button
-              className="bg-black"
+              className="text-white bg-red-500 w-32 rounded-md mt-5 flex justify-center"
               onClick={handleUseMyLocationClick}
-              disabled={isLoadingSelectAddress} // Disable while loading
+              disabled={isLoadingSelectAddress} 
             >
               Use My Location
             </button>
             <h1 className="text-black text-xl font-semibold">Address</h1>
             <textarea
-              className="bg-blue-100 text-black w-full h-24"
+              className="bg-gray-100 text-black w-full h-20 p-2 rounded-md"
               value={address}
+              readOnly
             />
 
-            <button
+<button
               onClick={() => handleSubmit(address, longitude, latitude)}
-              className="bg-black text-white"
-              disabled={isLoadingSelectAddress} // Disable while loading
+              className="bg-blue-500 text-white p-2 mt-2 rounded-md"
+              disabled={isLoadingSelectAddress} 
             >
               {isLoadingSelectAddress ? (
-                <Spinner size={24} /> // Display loader while submitting
+                <Spinner size={24} color="black" /> 
               ) : (
                 "Submit"
               )}

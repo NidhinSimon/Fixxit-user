@@ -10,7 +10,7 @@ const EmpHome = () => {
   const { providerInfo } = useSelector((state) => state.employee);
   const providerId = providerInfo.provider._id;
 
-  const socket = io("http://localhost:5000");
+  const socket = io("https://fixxit.shop");
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {

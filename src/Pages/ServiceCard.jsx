@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Card from "./card";
+
 import Navbar from "./Navbar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -31,7 +31,7 @@ const ServiceCard = () => {
 
   useEffect(() => {
     const servicesFetch = async () => {
-      const res = await axios.get(`http://localhost:5000/users/services/${id}`);
+      const res = await axios.get(`https://fixxit.shop/users/services/${id}`);
       console.log(res, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.");
       setServices(res.data);
     };

@@ -14,7 +14,7 @@ const EmpNavbar = () => {
   const providername = providerInfo.provider.name;
   const providerId = providerInfo.provider._id;
 
-  const socket = io("http://localhost:5000");
+  const socket = io("https://fixxit.shop");
 
   useEffect(() => {
     socket.emit("join-provider-room", providerId);
@@ -29,7 +29,7 @@ const EmpNavbar = () => {
   };
 
   const handleLogout = async () => {
-    const res = await axios.post("http://localhost:5000/logout");
+    const res = await axios.post("https://fixxit.shop/logout");
     console.log(res, ">..");
     try {
       if (res.data.message === "Logged Out Successfully") {

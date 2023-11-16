@@ -3,11 +3,6 @@ import Navbar from "./Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-import { button } from "@material-tailwind/react";
-
-import { Sidebar } from "primereact/sidebar";
-
-import { Button } from "primereact/button";
 import { FaHeart } from "react-icons/fa";
 
 import Cart from "./Cart";
@@ -50,7 +45,7 @@ const ServiceDetail = () => {
 
   useEffect(() => {
     const coupon = async () => {
-      const res = await axios.get("http://localhost:5000/admin/getcoupon");
+      const res = await axios.get("https://fixxit.shop/admin/getcoupon");
 
       setavailable(res.data);
     };
@@ -73,7 +68,7 @@ const ServiceDetail = () => {
       setServices(res.data);
 
       const response = await axios.get(
-        `http://localhost:5000/users/categoryname/${id}`
+        `https://fixxit.shop/users/categoryname/${id}`
       );
       console.log(response, "---------------------------------");
       setCategory(response.data.name);
@@ -134,7 +129,7 @@ const ServiceDetail = () => {
   const handleRemove = async (item) => {
     // dispatch(removeFromCart(item));
 
-    await deletecart()
+    await deletecart(userId,item.serviceId)
     const updatedcart = cart.filter((i) => i.serviceId !== item.serviceId);
     setCart(updatedcart);
     Swal.fire({

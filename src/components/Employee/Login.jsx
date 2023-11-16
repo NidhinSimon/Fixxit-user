@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import debounce from "lodash/debounce";
+
 import {
   getAuth,
   RecaptchaVerifier,
@@ -10,6 +12,7 @@ import { auth } from "../firebase.config";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
+import { PinInput, PinInputField } from "@chakra-ui/react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setProviderInfo } from "../../slices/employeeSlice";
@@ -17,7 +20,8 @@ import { setProviderInfo } from "../../slices/employeeSlice";
 const Login = () => {
   const navigate = useNavigate();
   const [otpPage, setOtppage] = useState(false);
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(Array(6).fill("")); 
+
   const [mobile, setMobile] = useState("");
   const [status, setStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -36,29 +40,29 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const onCaptchVerify = () => {
-  
-  
-    const auth = getAuth();
+    const authInstance = getAuth();
   
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
+        authInstance,
         "recaptcha-container",
         {
           size: "invisible",
           callback: (response) => {
+           
             handleSubmit();
           },
           "expired-callback": () => {
-          
+            
           },
         },
-        auth
+        authInstance
       );
     }
   
     PhoneVerify();
   };
+  
   
 
   const PhoneVerify = () => {
@@ -77,12 +81,14 @@ const Login = () => {
   };
 
   const OtpVerify = () => {
-    console.log("Verifying OTP:", otp);
+    const otpString = otp.join(""); 
+    console.log("Verifying OTP:", otpString);
+  
     window.confirmationResult
-      .confirm(otp)
+      .confirm(otpString)
       .then((res) => {
         console.log("OTP Verification Result:", res);
-
+  
         if (res.user) {
           console.log("OTP verified successfully");
           navigate("/empDash");
@@ -93,12 +99,12 @@ const Login = () => {
       })
       .catch((error) => {
         toast.error("OTP Verification Error:", error);
-    
       });
   };
+  
 
   const checkprovider = async () => {
-    const res = await axios.post("http://localhost:5000/checkprovider", {
+    const res = await axios.post("https://fixxit.shop/checkprovider", {
       mobile,
     });
     try {
@@ -122,7 +128,7 @@ const Login = () => {
    
     console.log("hello");
     try {
-      const res = await axios.post("http://localhost:5000/providerlogin", {
+      const res = await axios.post("https://fixxit.shop/providerlogin", {
         mobile,
       });
       console.log(res,"............")
@@ -154,6 +160,18 @@ const Login = () => {
     }
   };
 
+  const handlePinInputChange = (index, event) => {
+    const newValue = event.target.value;
+    setOtp((prevOtp) => {
+      const newOtp = [...prevOtp];
+      newOtp[index] = newValue;
+      return newOtp;
+    });
+  };
+
+  
+
+
   return (
     <>
       <div className="bg-gradient-to-tr from-cyan-400 to-indigo-300  h-screen border">
@@ -178,27 +196,20 @@ const Login = () => {
                 <h1 className="text-orange-400 relative  top-10 left-28 text-lg">
                   Enter The Otp{" "}
                 </h1>
-                <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-slate-200 my-10  ">
-                  {/* <HStack spacing={6}>
-                      <PinInput>
-                        {[1, 2, 3, 4, 5, 6].map((index) => (
-                          <PinInputField
-                            key={index}
-                            value={otp[index - 1] || ""}
-                            // onChange={OtpVerify} // Comment this line out
-                            className="custom-pin-input"
-                          />
-                        ))}
-                      </PinInput>
-                    </HStack> */}
+                <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-slate-200 my-10">
+                <PinInput>
+  {otp.map((value, index) => (
+    <PinInputField
+      key={index}
+      value={value}
+      onChange={(e) => handlePinInputChange(index, e)}
+      className="w-12 h-12 border border-gray-300 p-2 rounded-md text-center"
+    />
+  ))}
+</PinInput>
 
-                  <input
-                    type="number"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="ml-20"
-                  />
-                </section>
+
+  </section>
 
                 <button
                   onClick={OtpVerify}

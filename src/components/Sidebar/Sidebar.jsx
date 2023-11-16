@@ -4,9 +4,9 @@ import { Button } from "primereact/button";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { select } from "@material-tailwind/react";
+
 import toast, { Toaster } from "react-hot-toast";
-import coupon from "../../../../server/models/couponModel";
+
 const Sidebarcoupon = ({
   sidebar,
   selectedCoupon,
@@ -25,7 +25,7 @@ const Sidebarcoupon = ({
 
   useEffect(() => {
     const coupon = async () => {
-      const res = await axios.get("http://localhost:5000/admin/getcoupon");
+      const res = await axios.get("https://fixxit.shop/admin/getcoupon");
       console.log(res);
 
       setavailable(res.data);

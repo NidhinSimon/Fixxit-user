@@ -88,7 +88,7 @@ const RegisterScree = () => {
     return;
   }
 
-    const res=await axios.post('http://localhost:5000/users/check',{mobile})
+    const res=await axios.post('https://fixxit.shop/users/check',{mobile})
     console.log(res,'}}}}}}}}}}}}}}}}}}}}}}}}}')
 
 

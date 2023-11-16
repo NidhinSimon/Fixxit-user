@@ -1,0 +1,54 @@
+
+@font-face {
+    font-family: 'YourFontRegular';
+    src: url('./fonts/abel.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'YourFontBold';
+    src: url('./fonts/abel.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'PragatiNarrow-Bold';
+    src: url('./fonts/PragatiNarrow-Bold.otf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-size: xx-small;
+  }
+
+  
+  @font-face {
+    font-family: 'PragatiNarrow-Regular';
+    src: url('./fonts/PragatiNarrow-Regular.otf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+
+  }
+
+  @font-face {
+    font-family: ' Raleway-Regular';
+    src: url('./fonts/ Raleway-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    /* font-size: large; */
+  }
+
+  
+  @font-face {
+    font-family: ' Raleway-Light';
+    src: url('./fonts/ Raleway-Light.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+
+
+
+  
+  body {
+    font-family: 'PragatiNarrow-Regular', sans-serif;
+  }

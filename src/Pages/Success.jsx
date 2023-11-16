@@ -9,7 +9,7 @@ const Success = () => {
   const [providerInfo, setProviderInfo] = useState(null); // State to hold provider information
   const [loading, setLoading] = useState(true);
 
-  const socket = io("http://localhost:5000");
+  const socket = io("https://fixxit.shop");
 
   const { userInfo } = useSelector((state) => state.user);
   const userId = userInfo.userExists._id;

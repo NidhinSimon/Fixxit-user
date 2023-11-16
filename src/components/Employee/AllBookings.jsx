@@ -12,7 +12,7 @@ const AllBookings = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/allbookings/${providerId}`)
+      .get(`https://fixxit.shop/allbookings/${providerId}`)
       .then((response) => {
         console.log(response, "..");
         setBookings(response.data);
@@ -28,7 +28,7 @@ const AllBookings = () => {
     try {
       console.log(bookingId, "...");
       const response = await axios.post(
-        `http://localhost:5000/cancel/${bookingId}`
+        `https://fixxit.shop/cancel/${bookingId}`
       );
       console.log(response, ">>>>>>>>>>>>>");
       if (response.data.success) {

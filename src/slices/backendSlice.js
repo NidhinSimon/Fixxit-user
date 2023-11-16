@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-const USERS_URL ='/users'
+const USERS_URL ='https://fixxit.shop/users'
 
 export const usersApiSlice=apiSlice.injectEndpoints({
     endpoints:(builder)=>({

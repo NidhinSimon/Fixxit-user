@@ -10,7 +10,7 @@ const Navbar = () => {
   const providername = providerInfo.provider.name;
   const providerId = providerInfo.provider._id;
 
-  const socket = io("http://localhost:5000");
+  const socket = io("https://fixxit.shop");
 
   useEffect(()=>{
     socket.emit("join-provider-room", providerId);

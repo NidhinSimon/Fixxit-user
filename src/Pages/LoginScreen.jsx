@@ -18,30 +18,35 @@ import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { googlelogin } from "../slices/userSlice";
 import { useGoogleMutation } from "../slices/backendSlice";
-import axios from "axios";
+import { LoginSocialFacebook } from 'reactjs-social-login';
+import { FacebookLoginButton } from 'react-social-login-buttons';
+import axios from 'axios';
+
+
+import { verifyFb } from "../api/userApi";
 const LoginScreen = () => {
   const [number, setNumber] = useState("");
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(Array(6).fill("")); 
   const [otpPage, setOtpPage] = useState(false);
   const [otpTimer, setOtpTimer] = useState(60);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
 
   useEffect(() => {
     let timerInterval;
-
-    if (otpTimer > 0) {
+  
+    if (otpPage && otpTimer > 0) {
       timerInterval = setInterval(() => {
         setOtpTimer((prevTimer) => prevTimer - 1);
       }, 1000);
     } else {
       setIsResendDisabled(false);
     }
-
+  
     return () => {
       clearInterval(timerInterval);
     };
-  }, [otpTimer]);
-
+  }, [otpPage, otpTimer]);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -77,8 +82,10 @@ const LoginScreen = () => {
   };
 
   const OtpVerify = () => {
+    const otpString = otp.join("");
+    console.log("Verifying OTP:", otpString);
     window.confirmationResult
-      .confirm(otp)
+      .confirm(otpString)
       .then(async (res) => {
         console.log(res, "resultttt");
         navigate("/home");
@@ -118,6 +125,15 @@ const LoginScreen = () => {
     setOtpTimer(60);
   };
 
+  const handlePinInputChange = (index, event) => {
+    const newValue = event.target.value;
+    setOtp((prevOtp) => {
+      const newOtp = [...prevOtp];
+      newOtp[index] = newValue;
+      return newOtp;
+    });
+  };
+
 
 
   const [gmail,setgmail]=useState("")
@@ -127,7 +143,7 @@ const LoginScreen = () => {
    
 
 console.log(gmail,">>>")
-  //  const response=await axios.post('http://localhost:5000/users/verifyGooglelogin',email)
+  //  const response=await axios.post('https://fixxit.shop/users/verifyGooglelogin',email)
   //  console.log(response,"???/")
 const res=await googleLogin({email}).unwrap()
 console.log(res,";")
@@ -145,6 +161,48 @@ dispatch(googlelogin({...res}))
    
   };
 
+  const handleFacebookLogin = async (resolve) => {
+    try {
+      const accessToken = resolve.data?.accessToken;
+
+      if (!accessToken) {
+       
+        console.error("Access token not found");
+        return;
+      }
+
+      const response = await verifyFb(accessToken)
+      console.log(response, '--------------------');
+
+
+      if(response.data.message==='User login successful')
+      {
+        navigate('/home')
+      }
+
+      else if(response.data.message==='No account associated with this email')
+
+      {
+toast.error("Account Doesnt exist Please Register")
+      }
+      else
+      {
+        console.log(error.message)
+      }
+      const { userExists, message } = response.data;
+
+      if (userExists) {
+      
+        toast.success("User login successful:", userExists);
+      } else {
+     
+        console.log(message);
+      }
+    } catch (error) {
+      console.error('Error during Facebook login:', error);
+    }
+  };
+
 
 
 
@@ -154,7 +212,7 @@ dispatch(googlelogin({...res}))
       <div className="border h-screen bg-gradient-to-br from-blue-300 to-blue-500   ">
         <Toaster />
         <form onSubmit={handleSubmit}>
-          <div className="flex w-full max-w-sm mx-auto overflow-hidden  bg-white rounded-lg shadow-2xl dark:bg-slate-200 lg:max-w-5xl mt-44  max-h-96  text-slate-950 border border-slate-200 ">
+          <div className="flex w-full max-w-sm mx-auto overflow-hidden  bg-white rounded-lg shadow-2xl dark:bg-slate-200 lg:max-w-5xl mt-44  max-h-screen  text-slate-950 border border-slate-200 ">
             <div
               className="hidden bg-cover lg:block lg:w-1/2  h-96  "
               style={{
@@ -170,42 +228,45 @@ dispatch(googlelogin({...res}))
                 <h1 className="text-orange-400 relative  top-10 left-28 text-lg">
                   Enter The OTP{" "}
                 </h1>
-                <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-slate-200 my-10  ">
-                  <input
-                    type="number"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="ml-20"
-                  />
-                </section>
+                <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-slate-200 my-10">
+                <PinInput>
+  {otp.map((value, index) => (
+    <PinInputField
+      key={index}
+      value={value}
+      onChange={(e) => handlePinInputChange(index, e)}
+      className="w-12 h-12 border border-gray-300 p-2 rounded-md text-center"
+    />
+  ))}
+</PinInput>
 
-                {otpTimer > 0 ? (
-                  <>
-                    <button
-                      className="btn btn-primary relative bottom-34 left-32 text-lg"
-                      onClick={OtpVerify}
-                    >
-                      Verify
-                    </button>
-                    <div className="text-center mt-2">
-                      OTP will expire in {otpTimer} seconds.
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-center mt-2">
-                    {isResendDisabled ? (
-                      <span className="text-gray-400">Resend OTP</span>
-                    ) : (
-                      <button
-                        className="btn btn-secondary"
-                        onClick={handleResendOtp}
-                        disabled={isResendDisabled}
-                      >
-                        Resend OTP
-                      </button>
-                    )}
-                  </div>
-                )}
+
+  </section>
+
+  {otpTimer > 0 ? (
+  <>
+    <button
+      className="btn btn-primary relative bottom-34 left-32 text-lg"
+      onClick={OtpVerify}
+    >
+      Verify
+    </button>
+    <div className="text-center mt-2">
+      OTP will expire in {otpTimer} seconds.
+    </div>
+  </>
+) : (
+  <div className="text-center mt-2">
+    <button
+      className="btn btn-secondary"
+      onClick={handleResendOtp}
+      disabled={isResendDisabled}
+    >
+      Resend OTP
+    </button>
+  </div>
+)}
+
               </div>
             ) : (
               <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
@@ -258,20 +319,46 @@ dispatch(googlelogin({...res}))
                     ""
                   )} */}
                   </button>
-                
-                  <GoogleLogin
-                    onSuccess={(credentialResponse) => {
-                      var decoded=jwtDecode(credentialResponse.credential)
-                      console.log(decoded);
-                      if(decoded)
-                      {
-                        handleGoogleLogin(decoded)
-                      }
-                    }}
-                    onError={() => {
-                      console.log("Login Failed");
-                    }}
-                  />
+                  <div className="flex flex-col md:flex-row items-center justify-center mt-6">
+  <GoogleLogin
+    onSuccess={(credentialResponse) => {
+      var decoded = jwtDecode(credentialResponse.credential);
+      console.log(decoded);
+      if (decoded) {
+        handleGoogleLogin(decoded);
+      }
+    }}
+    onError={() => {
+      console.log("Login Failed");
+    }}
+    render={(renderProps) => (
+      <button
+        onClick={renderProps.onClick}
+        disabled={renderProps.disabled}
+        className="w-full md:w-auto px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-600 rounded-lg md:mr-4 hover:bg-red-500 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-50"
+      >
+        Login with Google
+      </button>
+    )}
+  />
+
+  <LoginSocialFacebook
+    className=" md:mt-0"
+    appId=""
+    onResolve={(resolve) => {
+      console.log(resolve);
+      setProfile(resolve.data);
+      handleFacebookLogin(resolve);
+    }}
+    onReject={(error) => {
+      console.log(error);
+    }}
+  >
+    <FacebookLoginButton className="w-full md:w-auto" />
+  </LoginSocialFacebook>
+</div>
+
+                 
                   
                   <div className="text-center">
                     <a

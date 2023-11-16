@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Modal from "../components/USer/Modal";
-import { input, useSelect } from "@material-tailwind/react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../components/Features/cartSlice";
 import UserNav from "./UserNav";
@@ -50,7 +50,7 @@ const Checkout = () => {
   const fetchUserAddresses = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/users/addresses/${userId}`
+        `https://fixxit.shop/users/addresses/${userId}`
       );
       setUserAddresses(res.data);
     } catch (error) {
@@ -155,7 +155,7 @@ const Checkout = () => {
 
   useEffect(() => {
     const cartfetch = async () => {
-      const res = await axios.get(`http://localhost:5000/users/cart/${userid}`);
+      const res = await axios.get(`https://fixxit.shop/users/cart/${userid}`);
       setCart(res.data);
       const total = calculateTotalAmount();
       setTotalAmount(total);
@@ -204,7 +204,7 @@ const Checkout = () => {
     );
 
     await axios
-      .post("http://localhost:5000/checkout", {
+      .post("https://fixxit.shop/checkout", {
         userId: userid,
         cart,
         total: selectedCoupon
@@ -255,12 +255,16 @@ const Checkout = () => {
     setAddressModalOpen(false);
   };
 
+  const handleDateModalClose = () => {
+    setdateModal(false);
+  };
+
   return (
     <>
       <Toaster />
       <UserNav />
-      {datemodal && <DateModal handleclose={receive} />}
-      <div className="bg-slate-100  mt-10 h-full w-full p-6 md:flex order-last">
+      {datemodal && <DateModal handlereceive={receive} handleclose={handleDateModalClose}/>}
+      <div className="bg-slate-100  mt-10 h-screen w-full p-6 md:flex order-last">
         <div className="bg-slate-100 w-full  md:w-3/5 h-screen p-6 ">
           <div className="bg-white h-4/5 p-5">
             {/*   send detail to */}
@@ -410,8 +414,8 @@ const Checkout = () => {
               )}
             </div>
           </div>
-          <div className="bg-purple-700 text-white h-10 w-full sticky bottom-0 flex  justify-center ">
-            <strong>
+          <div className="bg-purple-700 text-white h-10 w-full sticky bottom-0 flex  justify-center  cursor-pointer">
+            <strong className="cursor-pointer">
               {" "}
               Total: ₹
               {selectedCoupon

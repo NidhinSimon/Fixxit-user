@@ -37,7 +37,7 @@ const Chat = () => {
   }, [providerId]);
 
   useEffect(() => {
-    socket.current = io("http://localhost:5000");
+    socket.current = io("https://fixxit.shop");
     socket.current.emit("new-user-add", providerId);
     socket.current.on("get-users", (users) => {
       console.log(users, ">>>>>>>>>>>>");
