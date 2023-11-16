@@ -84,18 +84,24 @@ const LoginScreen = () => {
   const OtpVerify = () => {
     const otpString = otp.join("");
     console.log("Verifying OTP:", otpString);
-    window.confirmationResult
-      .confirm(otpString)
-      .then(async (res) => {
-        console.log(res, "resultttt");
-        navigate("/home");
-      })
-      .catch((error) => {
-        toast.error("otp invalid");
-        console.log(error.message);
-      });
+    
+    if (window.confirmationResult) {
+      window.confirmationResult
+        .confirm(otpString)
+        .then(async (res) => {
+          console.log(res, "resultttt");
+          navigate("/home");
+        })
+        .catch((error) => {
+          toast.error("OTP is invalid");
+          console.log(error.message);
+        });
+    } else {
+      // Handle the case where confirmationResult is not defined
+      console.error("Confirmation result is not defined.");
+    }
   };
-
+  
   const [loginuser] = useLoginMutation();
 
   const [googleLogin]=useGoogleMutation()
@@ -211,7 +217,7 @@ toast.error("Account Doesnt exist Please Register")
     <>
       <div className="border h-screen bg-gradient-to-br from-blue-300 to-blue-500   ">
         <Toaster />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div className="flex w-full max-w-sm mx-auto overflow-hidden  bg-white rounded-lg shadow-2xl dark:bg-slate-200 lg:max-w-5xl mt-44  max-h-screen  text-slate-950 border border-slate-200 ">
             <div
               className="hidden bg-cover lg:block lg:w-1/2  h-96  "
