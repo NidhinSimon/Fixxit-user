@@ -347,7 +347,7 @@ const RegisterScree = () => {
                  <div className="text-center">
                  <a
       
-        className="text-xs text-slate-800 uppercase dark:text-gray-800 hover:underline" onClick={() => navigate('/login')}
+        className="text-xs text-slate-800 uppercase dark:text-gray-800 hover:underline" onClick={() => navigate('/')}
       >
         or LOGIN
       </a>
