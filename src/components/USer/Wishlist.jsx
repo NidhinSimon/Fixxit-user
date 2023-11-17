@@ -37,6 +37,19 @@ const Wishlist = () => {
     navigate("/checkout");
   };
 
+  const removeFromWishlist = async (itemId) => {
+    console.log(itemId,'---')
+    try {
+    
+      await axios.delete(`https://fixxit.shop/users/wishlist/${userId}/${itemId}`);
+
+
+      setWishlist((prevWishlist) => prevWishlist.filter(item => item._id !== itemId));
+    } catch (error) {
+      console.error("Error removing item from wishlist:", error);
+    }
+  };
+
   return (
     <>
       <UserNav />
@@ -65,12 +78,12 @@ const Wishlist = () => {
                     {item.description}
                   </p>
                   <div className="flex justify-between items-center">
-                    {/* <button
+                    <button
                       onClick={() => removeFromWishlist(item._id)}
                       className="text-white bg-red-500 hover:bg-red-600 py-2 px-3 rounded-full transition duration-300"
                     >
                       Remove
-                    </button> */}
+                    </button>
                     <button
                       onClick={() => handleCheckout(item)}
                       className="text-white bg-blue-500 hover:bg-blue-600 py-2 px-3 rounded-full transition duration-300"

@@ -50,7 +50,8 @@ const Login = () => {
           size: "invisible",
           callback: (response) => {
            
-            handleSubmit(e);
+            
+            handleSubmit();
           },
           "expired-callback": () => {
             
@@ -110,7 +111,7 @@ const Login = () => {
     try {
       if (res.data.message === "provider veirfy verified") {
         console.log("insideeeeeeeeee");
-        handleSubmit(e);
+        handleSubmit();
       } else if (res.data.status === "pending") {
         setShowModal(true);
       } else if (res.data.status === "rejected") {
@@ -124,8 +125,8 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); 
+  const handleSubmit = async () => {
+
    
     console.log("hello");
     try {
@@ -136,6 +137,7 @@ const Login = () => {
     
       dispatch(setProviderInfo(res.data));
       if (res.data.message === "Provider Login Successfull") {
+        console.log("insde >>>>>>>")
         setOtppage(true);
 
         onCaptchVerify();

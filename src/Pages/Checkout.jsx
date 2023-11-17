@@ -14,7 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Sidebarcoupon from "../components/Sidebar/Sidebar";
 import { Button } from "primereact/button";
 import { FaTrash } from "react-icons/fa";
-
+import User from "../../../server/models/userModel";
 import AddressModal from "../components/USer/USerModal/AddressModal";
 import { deletecart } from "../api/userApi";
 
@@ -220,6 +220,11 @@ const Checkout = () => {
       .then((res) => {
         if (res.data.url) {
           window.location.href = res.data.url;
+          localStorage.removeItem("selectedCoupon")
+          setCart([]);
+          setSelectedcoupon(null)
+          
+
         }
       })
       .catch((err) => {
@@ -259,6 +264,10 @@ const Checkout = () => {
     setdateModal(false);
   };
 
+  const handleOpenMapModal=async()=>{
+    setMapmodal(true);
+  }
+
   return (
     <>
       <Toaster />
@@ -292,7 +301,12 @@ const Checkout = () => {
               <h1 className="mt-4 ml-5 text-lg font-bold "> Address </h1>
               <div className="flex w-full mt-10 justify-center align-middle">
                 {selectedAddress ? (
-                  <p className="text-sm "><b>Address: </b> {selectedAddress}</p>
+                  <p className="text-sm "><b>Address: </b> {selectedAddress}  <button
+            onClick={handleOpenMapModal}
+            className="h-6 bg-yellow-300 rounded-lg w-16 mt-4 mr-3"
+          >
+            Edit
+          </button></p>
                 ) : (
                   <div>
                     <button

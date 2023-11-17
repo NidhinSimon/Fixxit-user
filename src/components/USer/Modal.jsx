@@ -18,6 +18,8 @@ const Modal = ({ closemodal, handlelocation }) => {
   const [latitude, setLatitude] = useState("");
   const [isLoadingMap, setIsLoadingMap] = useState(true);
   const [isLoadingSelectAddress, setIsLoadingSelectAddress] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const { userInfo } = useSelector((state) => state.user);
   const userid = userInfo.userExists._id;
@@ -53,6 +55,54 @@ const Modal = ({ closemodal, handlelocation }) => {
     }
   };
 
+  const handleSearch = () => {
+    if (searchTerm.trim() === "") {
+      // Handle empty search term
+      return;
+    }
+
+    setIsLoadingMap(true);
+
+    axios
+      .get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          searchTerm
+        )}.json?access_token=${mapboxgl.accessToken}`
+      )
+      .then((response) => {
+        const features = response.data.features;
+        if (features && features.length > 0) {
+          const [lng, lat] = features[0].center;
+          map.setCenter([lng, lat]);
+          addMarker(lng, lat);
+          reversegeocode(lng, lat);
+          setLongitude(lng);
+          setLatitude(lat);
+          setIsLoadingMap(false);
+        } else {
+          console.error("No results found for the search term");
+          setIsLoadingMap(false);
+        }
+        setSuggestions(features);
+      })
+      .catch((error) => {
+        console.error("Error searching for the address:", error);
+        setIsLoadingMap(false);
+      });
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    const [lng, lat] = suggestion.center;
+    map.setCenter([lng, lat]);
+    map.setZoom(14); 
+    addMarker(lng, lat);
+    reversegeocode(lng, lat);
+    setLongitude(lng);
+    setLatitude(lat);
+    setSearchTerm(suggestion.place_name); 
+    setSuggestions([]);
+  };
+
   useEffect(() => {
     const initializeMap = () => {
       const newMap = new mapboxgl.Map({
@@ -80,55 +130,72 @@ const Modal = ({ closemodal, handlelocation }) => {
     if (userLocationMarker) {
       userLocationMarker.remove();
     }
-    const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+
+    const marker = new mapboxgl.Marker({ draggable: true })
+      .setLngLat([lng, lat])
+      .addTo(map);
+
+    setLongitude(lng);
+    setLatitude(lat);
+
+    marker.on("dragend", () => {
+      const newLngLat = marker.getLngLat();
+      setLongitude(newLngLat.lng);
+      setLatitude(newLngLat.lat);
+      reversegeocode(newLngLat.lng, newLngLat.lat);
+    });
+
     setUserLocationMarker(marker);
   };
 
   const handleUseMyLocationClick = () => {
-    setIsLoadingMap(true); // Set loading state while fetching geolocation
-  
+    setIsLoadingMap(true);
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-  
+
           map.setCenter([longitude, latitude]);
           addMarker(longitude, latitude);
           reversegeocode(longitude, latitude);
           setLongitude(longitude);
           setLatitude(latitude);
-          setIsLoadingMap(false); // Clear loading state
+          setIsLoadingMap(false);
         },
         (error) => {
           console.error("Error getting user location:", error);
-          setIsLoadingMap(false); // Clear loading state in case of an error
+          setIsLoadingMap(false);
         },
         {
-          enableHighAccuracy: true, // Use GPS for more accurate location
-          maximumAge: 30000, // Cache the location for 30 seconds
+          enableHighAccuracy: true,
+          maximumAge: 30000,
         }
       );
     } else {
       console.error("Geolocation is not available in this browser.");
-      setIsLoadingMap(false); // Clear loading state in case geolocation is not available
+      setIsLoadingMap(false);
     }
   };
-  
+
   const reversegeocode = (lng, lat) => {
-    console.log(lng,lat)
     axios
       .get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyA04gExT_3ABGyN3KoRT70m1PdQ0RDWWVA`
       )
       .then((response) => {
-        const address = response.data.results[0].formatted_address;
-        setAddress(address);
+        const results = response.data.results;
+        if (results && results.length > 0) {
+          const address = results[0].formatted_address;
+          setAddress(address);
+        } else {
+          console.error("No results found for reverse geocoding");
+        }
       })
       .catch((error) => {
         console.error("Error reverse geocoding:", error);
       });
   };
-  
 
   return (
     <div>
@@ -140,26 +207,42 @@ const Modal = ({ closemodal, handlelocation }) => {
             id="map"
             style={{ width: "100%", height: "500px" }}
           >
-            {isLoadingMap ? ( // Display loader when map is loading
+            {isLoadingMap ? (
               <div className="absolute inset-0 flex items-center justify-center">
-                <Spinner /> {/* Loading spinner */}
+                <Spinner />
               </div>
-            ) : (
-              <div></div>
-            //   <button
-            //   className="text-white bg-red-500 w-32 absolute bottom-4 left-4 p-2 rounded-md"
-            //   onClick={handleUseMyLocationClick}
-            // >
-            //   Use My Location
-            // </button>
-            )}
+            ) : null}
           </div>
 
-          <div className="w-4/5 ">
+          <div className="w-4/5">
+            <input
+              type="text"
+              placeholder="Search for an address"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchTerm}
+              className="bg-gray-100 text-black w-full p-2 rounded-md"
+            />
+            <div className="mt-2">
+              {suggestions.map((suggestion) => (
+                <div
+                  key={suggestion.id}
+                  className="p-2 border-b cursor-pointer bg-slate-600 text-white hover:bg-gray-400"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion.place_name}
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={handleSearch}
+              className="text-white bg-blue-500 p-2 mt-2 rounded-md"
+            >
+              Search
+            </button>
             <button
               className="text-white bg-red-500 w-32 rounded-md mt-5 flex justify-center"
               onClick={handleUseMyLocationClick}
-              disabled={isLoadingSelectAddress} 
+              disabled={isLoadingSelectAddress}
             >
               Use My Location
             </button>
@@ -170,13 +253,13 @@ const Modal = ({ closemodal, handlelocation }) => {
               readOnly
             />
 
-<button
+            <button
               onClick={() => handleSubmit(address, longitude, latitude)}
               className="bg-blue-500 text-white p-2 mt-2 rounded-md"
-              disabled={isLoadingSelectAddress} 
+              disabled={isLoadingSelectAddress}
             >
               {isLoadingSelectAddress ? (
-                <Spinner size={24} color="black" /> 
+                <Spinner size={24} color="black" />
               ) : (
                 "Submit"
               )}

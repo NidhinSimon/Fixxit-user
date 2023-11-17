@@ -32,6 +32,7 @@ const ServiceDetail = () => {
   const [add] = useAddCartMutation();
 
   const { userInfo } = useSelector((state) => state.user);
+  const token=userInfo.token
 
   const userId = userInfo.userExists._id;
   useEffect(() => {
@@ -45,7 +46,10 @@ const ServiceDetail = () => {
 
   useEffect(() => {
     const coupon = async () => {
-      const res = await axios.get("https://fixxit.shop/admin/getcoupon");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const res = await axios.get("https://fixxit.shop/admin/getcoupon",{headers});
 
       setavailable(res.data);
     };

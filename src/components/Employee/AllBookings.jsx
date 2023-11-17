@@ -9,10 +9,14 @@ const AllBookings = () => {
 
   const { providerInfo } = useSelector((state) => state.employee);
   const providerId = providerInfo.provider._id;
+  const token=userInfo.token
 
   useEffect(() => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
     axios
-      .get(`https://fixxit.shop/allbookings/${providerId}`)
+      .get(`https://fixxit.shop/allbookings/${providerId}`,{headers})
       .then((response) => {
         console.log(response, "..");
         setBookings(response.data);
