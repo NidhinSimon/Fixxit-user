@@ -1,7 +1,7 @@
 
 @font-face {
     font-family: 'YourFontRegular';
-    src: url('./fonts/abel.ttf') format('truetype');
+    src: url('/fonts/abel.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
@@ -24,7 +24,7 @@
   
   @font-face {
     font-family: 'PragatiNarrow-Regular';
-    src: url('./fonts/PragatiNarrow-Regular.otf') format('truetype');
+    src: url('/fonts/PragatiNarrow-Regular.otf') format('truetype');
     font-weight: bold;
     font-style: normal;
 
