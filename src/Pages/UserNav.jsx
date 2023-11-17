@@ -40,7 +40,7 @@ const UserNav = () => {
       <div className="flex items-center justify-between">
         <a href="#" onClick={() => navigate("/home")}>
           <img
-            className="w-auto h-14 sm:h-14"
+            className="w-auto h-10 sm:h-10"
             src="/fix.png"
             alt="Logo"
           />
