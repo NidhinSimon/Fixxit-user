@@ -58,7 +58,10 @@ const EmpHome = () => {
 
   const handleAccept = (bookingId) => {
     console.log("ddhgdgdgh");
-    acceptBooking(bookingId,providerId)
+    axios
+      .put(`https://fixxit.shop/boookings/accept/${bookingId}`, {
+        providerId,
+      })
       .then((response) => {
         console.log(response, ">>..");
         if (response.data.success) {
