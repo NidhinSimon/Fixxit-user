@@ -14,7 +14,7 @@ const UpcomingBookings = () => {
   const [error, setError] = useState(null);
   const [id, setId] = useState("");
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   const [otp, setOtp] = useState("");
 
