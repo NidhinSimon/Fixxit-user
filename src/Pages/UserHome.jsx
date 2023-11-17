@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import UserNav from "./UserNav";
 import { getCategories } from "../api/adminApiRoute";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger"; // Import ScrollTrigger
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -107,6 +107,7 @@ const UserHome = () => {
     <div className="flex justify-center space-x-56 relative">
       <div className="bg-white rounded-full h-60 w-60 flex items-center justify-evenly shadow border">
         <div className="text-4xl text-blue-500">1</div>
+        <p>dghdhdghdgh</p>
       </div>
       <div className="relative">
         <div className="absolute inset-0 flex items-center justify-center">
