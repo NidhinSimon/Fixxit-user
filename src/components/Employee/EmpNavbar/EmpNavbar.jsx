@@ -50,7 +50,7 @@ const EmpNavbar = () => {
       <div className="container px-6 py-4 mx-auto">
         <div className="lg:flex lg:items-center">
           <div className="flex items-center justify-between">
-            <a href="#">
+            <a >
               <img
                 className="w-auto h-6 sm:h-10 "
                 src="/fix.png"

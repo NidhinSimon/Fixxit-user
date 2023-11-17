@@ -24,7 +24,8 @@ const UpcomingBookings = () => {
   const socket = io("https://fixxit.shop");
 
   useEffect(() => {
-    upcomingBookings(providerId)
+    axios
+      .get(`https://fixxit.shop/upcoming/${providerId}`)
       .then((response) => {
         const data = response.data;
         console.log(data, ">");
