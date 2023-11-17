@@ -17,7 +17,7 @@ const AllBookings = () => {
   useEffect(() => {
     
     axios
-      .get(`https://fixxit.shop/allbookings/${providerId}`,{headers})
+      .get(`https://fixxit.shop/allbookings/${providerId}`,)
       .then((response) => {
         console.log(response, "..");
         setBookings(response.data);
