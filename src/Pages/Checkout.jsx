@@ -14,7 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Sidebarcoupon from "../components/Sidebar/Sidebar";
 import { Button } from "primereact/button";
 import { FaTrash } from "react-icons/fa";
-import User from "../../../server/models/userModel";
+
 import AddressModal from "../components/USer/USerModal/AddressModal";
 import { deletecart } from "../api/userApi";
 
