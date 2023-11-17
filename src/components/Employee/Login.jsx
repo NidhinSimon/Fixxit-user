@@ -224,7 +224,7 @@ const Login = () => {
                 <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
 
                 <a
-                  href="#"
+                  onClick={()=>navigate('/empregister')}
                   className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
                 >
                   or sign up

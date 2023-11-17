@@ -493,7 +493,7 @@ const EmployeeSignup = () => {
 
                   <a
                     onClick={() => navigate("/emplogin")}
-                    href="#"
+                  
                     className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
                   >
                     or sign up
@@ -716,7 +716,7 @@ const EmployeeSignup = () => {
 
                     <a
                       onClick={() => navigate("/emplogin")}
-                      href="#"
+                    
                       className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
                     >
                       or sign up
@@ -937,7 +937,7 @@ const EmployeeSignup = () => {
 
                     <a
                       onClick={() => navigate("/emplogin")}
-                      href="#"
+                      
                       className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
                     >
                       or sign up

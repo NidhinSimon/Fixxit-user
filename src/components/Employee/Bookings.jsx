@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import UpcomingBookings from "./UpcomingBookings";
 import AllBookings from "./AllBookings";
 import Navbar from "./Navbar";
+import EmpNavbar from "./EmpNavbar/EmpNavbar";
 
 const Bookings = () => {
   const [activeTab, setActiveTab] = useState("all");
@@ -16,7 +17,7 @@ const Bookings = () => {
     <>
     
   
-    <Navbar/>
+    <EmpNavbar/>
     <div className="bg-gray-100 min-h-screen p-4 mt-14">
       {/* <header className="text-center text-2xl font-bold py-4">
       Your Bookings
