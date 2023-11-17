@@ -24,6 +24,10 @@ import axios from 'axios';
 import { Fblogin } from "../slices/userSlice";
 import { useFbMutation } from "../slices/backendSlice";
 import { verifyFb } from "../api/userApi";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+
 const LoginScreen = () => {
   const [number, setNumber] = useState("");
   const [otp, setOtp] = useState(Array(6).fill("")); 
@@ -49,6 +53,37 @@ const LoginScreen = () => {
   
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
+  const validationSchema = Yup.object({
+    number: Yup.string()
+      .required('Mobile number is required')
+      .matches(/^\d{10}$/, 'Mobile number must be 10 digits'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      number: '',
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const res = await loginuser({ number: values.number }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        console.log(res, ">>>>>>>>>>>>>>>>>>");
+
+        if (res.message === "User login successful") {
+          setOtpPage(true);
+          onCaptchVerify();
+          OtpVerify();
+          localStorage.setItem("usertoken", res.token);
+          localStorage.setItem("userData", res.data);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+  });
 
   const PhoneVerify = () => {
     const phoneNumber = "+91" + number;
@@ -224,7 +259,7 @@ toast.error("Account Doesnt exist Please Register")
     <>
       <div className="border h-screen bg-gradient-to-br from-blue-300 to-blue-500   ">
         <Toaster />
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={formik.handleSubmit}>
           <div className="flex w-full max-w-sm mx-auto overflow-hidden  bg-white rounded-lg shadow-2xl dark:bg-slate-200 lg:max-w-5xl mt-44  max-h-screen  text-slate-950 border border-slate-200 ">
             <div
               className="hidden bg-cover lg:block lg:w-1/2  h-96  "
@@ -314,13 +349,17 @@ toast.error("Account Doesnt exist Please Register")
                   </label>
 
                   <input
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)}
-                    id="number"
-                    placeholder="Enter the Mobile Number"
-                    className="block w-full px-4 py-2 bg-slate-50 border rounded-lg dark:text-black  focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
-                    type="text"
-                  />
+                  id="number"
+                  name="number"
+                  type="text"
+                  value={formik.values.number}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className="block w-full px-4 py-2 bg-slate-50 border rounded-lg dark:text-black focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+                />
+                {formik.touched.number && formik.errors.number ? (
+                  <div className="text-red-500 text-xs mt-1">{formik.errors.number}</div>
+                ) : null}
                 </div>
 
                 <div className="mt-6">
