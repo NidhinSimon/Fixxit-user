@@ -355,6 +355,7 @@ toast.error("Account Doesnt exist Please Register")
                   value={formik.values.number}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  placeholder="Enter The Mobile Number"
                   className="block w-full px-4 py-2 bg-slate-50 border rounded-lg dark:text-black focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
                 />
                 {formik.touched.number && formik.errors.number ? (
