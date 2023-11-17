@@ -53,7 +53,7 @@ const EmpNavbar = () => {
             <a href="#">
               <img
                 className="w-auto h-6 sm:h-10 "
-                src="/src/assets/final.png"
+                src="/fix.png"
                 alt="www"
               />
             </a>
@@ -134,7 +134,7 @@ const EmpNavbar = () => {
               <img
                 onClick={() => navigate("/chat")}
                 className="h-8 w-8 ml-2"
-                src="/src/assets/chat.png"
+                src="/chat.png"
                 alt="yy"
               />
 

@@ -41,7 +41,7 @@ const UserNav = () => {
         <a href="#" onClick={() => navigate("/home")}>
           <img
             className="w-auto h-14 sm:h-14"
-            src="/final.png"
+            src="/fix.png"
             alt="Logo"
           />
         </a>
