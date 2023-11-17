@@ -54,7 +54,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/login" element={<LoginScreen />} />
-            <Route path="/" index={true} element={< Login/>} />
+            <Route path="/" index={true} element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScree />} />
             <Route path="/map" element={<MapWithGeocoding />} />
             <Route path="/ji" element={<Juju />} />
@@ -77,7 +77,7 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/service/:id" element={<ServiceDetailpage />} />
               <Route path="/userChat" element={<Chats />} />
-           
+
               <Route path="/invoice" element={<Invoice />} />
             </Route>
 
@@ -85,18 +85,17 @@ function App() {
 
             <Route path="/emplogin" element={<Login />} />
 
-            <Route path="/maptest" element={<MapComponent/>}/>
-         
+            <Route path="/maptest" element={<MapComponent />} />
 
             {/* Emp private Route  */}
             <Route path="" element={<EmpPrivateRoute />}>
               <Route path="/empDash" element={<EmpDash />} />
               <Route path="/empHome" element={<EmpHome />} />
               <Route path="/empbookings" element={<Bookings />} />
-          
-          <Route path="/provider/upcoming" element={<UpcomingBookings />} />
-          <Route path="/provider/all" element={<AllBookings />} />
-          <Route path="/chat" element={<Chat />} />
+
+              <Route path="/provider/upcoming" element={<UpcomingBookings />} />
+              <Route path="/provider/all" element={<AllBookings />} />
+              <Route path="/chat" element={<Chat />} />
             </Route>
           </Routes>
         </Router>
