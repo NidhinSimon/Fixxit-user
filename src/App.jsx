@@ -53,7 +53,7 @@ function App() {
       <PrimeReactProvider>
         <Router>
           <Routes>
-            <Route path="/login" element={<LoginScreen />} />
+            {/* <Route path="/login" element={<LoginScreen />} /> */}
             <Route path="/" index={true} element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScree />} />
             <Route path="/map" element={<MapWithGeocoding />} />
