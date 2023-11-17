@@ -105,7 +105,7 @@ const UserNav = () => {
           <img
             onClick={() => navigate("/wishlist")}
             className="h-6 w-6"
-            src="/src/assets/heart.gif"
+            src="/heart.gif"
             alt="eee"
           />
           {/* <a
