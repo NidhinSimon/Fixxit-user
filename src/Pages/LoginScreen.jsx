@@ -64,8 +64,7 @@ const LoginScreen = () => {
       });
   };
 
-  const onCaptchVerify = (e) => {
-    e.preventDefault(); 
+  const onCaptchVerify = () => {
     const auth = getAuth();
     window.recaptchaVerifier = new RecaptchaVerifier(
       auth,
@@ -73,7 +72,7 @@ const LoginScreen = () => {
       {
         size: "invisible",
         callback: (response) => {
-          handleSubmit(e); 
+          handleSubmit(); 
         },
         "expired-callback": () => {},
       },
