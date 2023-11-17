@@ -21,8 +21,8 @@ import { useGoogleMutation } from "../slices/backendSlice";
 import { LoginSocialFacebook } from 'reactjs-social-login';
 import { FacebookLoginButton } from 'react-social-login-buttons';
 import axios from 'axios';
-
-
+import { Fblogin } from "../slices/userSlice";
+import { useFbMutation } from "../slices/backendSlice";
 import { verifyFb } from "../api/userApi";
 const LoginScreen = () => {
   const [number, setNumber] = useState("");
@@ -105,6 +105,8 @@ const LoginScreen = () => {
   
   const [loginuser] = useLoginMutation();
 
+  const [loginFb]=useFbMutation()
+
   const [googleLogin]=useGoogleMutation()
 
   const handleSubmit = async (e) => {
@@ -178,16 +180,20 @@ dispatch(googlelogin({...res}))
         return;
       }
 
-      const response = await verifyFb(accessToken)
-      console.log(response, '--------------------');
+      const response=await loginFb({accessToken}).unwrap()
+
+      dispatch(Fblogin({...response}))
+
+      // const response = await verifyFb(accessToken)
+      // console.log(response, '--------------------');
 
 
-      if(response.data.message==='User login successful')
+      if(response.message==='User login successful')
       {
         navigate('/home')
       }
 
-      else if(response.data.message==='No account associated with this email')
+      else if(response.message==='No account associated with this email')
 
       {
 toast.error("Account Doesnt exist Please Register")

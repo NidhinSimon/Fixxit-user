@@ -24,6 +24,13 @@ export const usersApiSlice=apiSlice.injectEndpoints({
                 body:data
             })
         }),
+        Fb:builder.mutation({
+            query:(data)=>({
+                url:`${USERS_URL}/verifyfb`,
+                method:'POST',
+                body:data
+            })
+        }),
         
         saveAddress: builder.mutation({ 
             query: (data) => ({
@@ -50,5 +57,5 @@ export const usersApiSlice=apiSlice.injectEndpoints({
 })
 
 export const {
-    useRegisterMutation,useLoginMutation,useLogoutMutation,useAddCartMutation,useGoogleMutation
+    useRegisterMutation,useLoginMutation,useLogoutMutation,useAddCartMutation,useGoogleMutation,useFbMutation
 }=usersApiSlice
