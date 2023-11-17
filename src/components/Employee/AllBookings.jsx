@@ -9,6 +9,9 @@ const AllBookings = () => {
 
   const { providerInfo } = useSelector((state) => state.employee);
   const providerId = providerInfo.provider._id;
+  const token=providerInfo.token
+
+  console.log(token,'---')
   
 
   useEffect(() => {
