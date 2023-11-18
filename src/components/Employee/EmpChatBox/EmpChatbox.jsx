@@ -5,6 +5,7 @@ import { useFetcher } from "react-router-dom";
 import { addMessage, getMessages } from "../../../api/messageRequest";
 import {format} from 'timeago.js'
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const EmpChatBox = ({ chat, currentUser, setsendMessage, receiveMessage }) => {
   const [userData, setuserData] = useState(null);
   const [messages, setMessages] = useState([]);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getuserData } from "../../../api/chatRequest";
 import { Avatar } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const EmpConversation = ({ data, currentUser, receiveMessage, unread, onEnterChat }) => {
   const [userData, setuserData] = useState(null);
