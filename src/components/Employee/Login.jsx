@@ -89,7 +89,7 @@ const Login = () => {
         setOtppage(true);
       })
       .catch((error) => {
-        toast.error(error.message);
+       console.log(error.message)
       });
   };
 

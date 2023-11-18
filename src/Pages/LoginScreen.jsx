@@ -133,7 +133,7 @@ const LoginScreen = () => {
           console.log(error.message);
         });
     } else {
-      // Handle the case where confirmationResult is not defined
+      
       console.error("Confirmation result is not defined.");
     }
   };
