@@ -18,8 +18,12 @@ const UserHome = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userInfo) {
-      navigate("/");
+    if (userInfo) {
+      navigate("/checkout");
+    }
+    else
+    {
+      navigate('/')
     }
   }, [ userInfo]);
 
