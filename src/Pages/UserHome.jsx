@@ -6,6 +6,7 @@ import UserNav from "./UserNav";
 import { getCategories } from "../api/adminApiRoute";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
