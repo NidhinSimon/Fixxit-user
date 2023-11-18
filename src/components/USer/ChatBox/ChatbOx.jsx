@@ -78,7 +78,7 @@ const Chatbox = ({ chat, currentUser, setsendMessage, receiveMessage }) => {
         {chat ? (
           <>
             <h1 className="text-center text-2xl font-bold py-4">
-              Chat Interface
+              Chat 
             </h1>
             <div className="h-16 shadow-lg">
               <Avatar className="h-16" img={userData?.profileimage} rounded-md>
