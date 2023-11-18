@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Spinner from "./Spinner";
+import { useNavigate } from "react-router-dom";
 
 const AllBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -12,6 +13,13 @@ const AllBookings = () => {
   const token=providerInfo.token
 
   console.log(token,'---')
+  const navigate=useNavigate()
+
+  useEffect(()=>{
+if(!providerInfo)
+{
+  navigate('/emplogin')}
+  },[providerInfo])
   
 
   useEffect(() => {

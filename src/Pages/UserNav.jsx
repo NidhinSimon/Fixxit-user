@@ -24,7 +24,7 @@ const UserNav = () => {
       await logoutapi().unwrap();
       dispatch(logout());
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(error.message);
     }

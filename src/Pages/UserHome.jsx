@@ -17,10 +17,10 @@ const UserHome = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userInfo) {
-      navigate("/home");
+    if (!userInfo) {
+      navigate("/");
     }
-  }, [, userInfo]);
+  }, [ userInfo]);
 
 
   
@@ -42,6 +42,8 @@ const UserHome = () => {
     navigate(`/service/${id}`);
   };
 
+  const servicesSectionRef = useRef(null);
+
   return (
     <>
       <header className="bg-white rounded-3xl">
@@ -61,7 +63,9 @@ const UserHome = () => {
                   let the professionals handle the work
                 </p>
 
-                <button className="w-full px-5 py-2 mt-6 text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-blue-600 rounded-lg lg:w-auto hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                <button
+                 onClick={() => servicesSectionRef.current.scrollIntoView({ behavior: "smooth" })}
+                className="w-full px-5 py-2 mt-6 text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-blue-600 rounded-lg lg:w-auto hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                   BOOK NOW
                 </button>
               </div>
@@ -78,7 +82,7 @@ const UserHome = () => {
         </div>
       </header>
 
-      <h1 className="text-center  text-xl font-semibold">OUR SERVICES</h1>
+      <h1 ref={servicesSectionRef}  className="text-center  text-xl font-semibold">OUR SERVICES</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 ml-12 md:grid-cols-3 lg:grid-cols-4 mx-auto sm:mx-12 md:ml-36 lg:ml-40 mt-12">
   {categories.map((category) => (
     <div
@@ -101,28 +105,39 @@ const UserHome = () => {
     </div>
   ))}
 </div>
-<section className="bg-white p-16">
-  <div className="container mx-auto text-center">
+<section className="bg-white p-16 mt-10">
+  <div className="container mx-auto text-center bg-slate-200  h-96 rounded-3xl">
     <h2 className="text-3xl font-semibold mb-8">How It Works</h2>
-    <div className="flex justify-center space-x-56 relative">
-      <div className="bg-white rounded-full h-60 w-60 flex items-center justify-evenly shadow border">
-        <div className="text-4xl text-blue-500">1</div>
-        <p>dghdhdghdgh</p>
+    <div className="flex justify-center space-x-56 relative  ">
+      <div className="bg-white rounded-full h-60 w-60 flex flex-col items-center justify-evenly shadow border">
+        <div className="text-4xl text-blue-500 ">1</div>
+        <div className="mt-4">Search </div>
+        <div className="text-sm text-gray-500"></div>
+      
       </div>
+
       <div className="relative">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className=" bg-blue-500 rounded-full"></div>
+          <div className=" bg-blue-500 rounded-full "></div>
         </div>
-        <div className="bg-white rounded-full h-60 w-60 flex items-center justify-evenly shadow-lg relative " style={{top:"30px"}}>
+        <div
+          className="bg-white rounded-full h-60 w-60 flex flex-col items-center justify-evenly shadow-lg relative border "
+          style={{ top: "30px" }}
+        >
           <div className="text-4xl text-blue-500">2</div>
+          <div className="mt-4">Find</div>
+          <div className="text-sm text-gray-500"></div>
         </div>
       </div>
+
       <div className="relative">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className=" bg-blue-500 rounded-full"></div>
         </div>
-        <div className="bg-white rounded-full h-60 w-60 flex items-center justify-evenly shadow-lg">
+        <div className="bg-white rounded-full h-60 w-60 flex flex-col items-center justify-evenly shadow-lg border">
           <div className="text-4xl text-blue-500">3</div>
+          <div className="mt-4">Book</div>
+          <div className="text-sm text-gray-500"></div>
         </div>
       </div>
     </div>

@@ -18,14 +18,10 @@ const navigate=useNavigate()
 
 useEffect(()=>{
 
-    if(providerInfo)
+    if(!providerInfo)
     {
-        navigate('/empDash')
-    }else
-    {
-      navigate('/emplogin')
+        navigate('/emplogin')
     }
-   
 
 },[providerInfo,navigate])
 

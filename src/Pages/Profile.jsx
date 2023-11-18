@@ -31,7 +31,7 @@ const Profile = () => {
 
       if (!userInfo || !token) {
     
-        navigate("/login");
+        navigate("/");
     
         toast.error("Please log in to view this page");
         return;

@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import OtpModal from "./EmpOptModal/OtpModal";
 import toast,{Toaster} from 'react-hot-toast'
 import { cancelBooking } from "../../api/empApi";
+import { useNavigate } from "react-router-dom";
 
 const UpcomingBookings = () => {
   const [upcomingBookings, setUpcomingBookings] = useState([]);
@@ -22,6 +23,15 @@ const UpcomingBookings = () => {
   const providerId = providerInfo.provider._id;
 
   const socket = io("https://fixxit.shop");
+
+const navigate=useNavigate()
+
+  useEffect(()=>{
+if(!providerInfo )
+{
+  navigate('/emplogin')
+}
+  },[])
 
   useEffect(() => {
     axios

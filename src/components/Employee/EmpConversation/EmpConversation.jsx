@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { getuserData } from "../../../api/chatRequest";
 import { Avatar } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 const EmpConversation = ({ data, currentUser, receiveMessage, unread, onEnterChat }) => {
   const [userData, setuserData] = useState(null);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isInChat, setIsInChat] = useState(false);
+
+
+  const { providerInfo } = useSelector((state) => state.employee);
+  const providerId = providerInfo.provider._id;
+  useEffect(() => {
+    if (!providerInfo) {
+      navigate("/emplogin");
+    }
+  }, [providerInfo]);
 
   useEffect(() => {
     const userId = data.members.find((id) => id !== currentUser);

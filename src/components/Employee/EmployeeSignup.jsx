@@ -132,7 +132,7 @@ const EmployeeSignup = () => {
 
   const closeModal = () => {
     setVerify(false);
-    navigate("/login");
+    navigate("/emplogin");
   };
 
   const handlemap = async (longitude, latitude, address) => {

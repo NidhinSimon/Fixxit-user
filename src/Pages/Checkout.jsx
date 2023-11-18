@@ -116,11 +116,9 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    if (userInfo) {
-      navigate("/checkout");
-    } else {
-      navigate("/login");
-    }
+    if (!userInfo) {
+      navigate("/");
+    } 
   }, [userInfo]);
 
   const calculateCartTotal = () => {

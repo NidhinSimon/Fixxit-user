@@ -34,6 +34,13 @@ const ServiceDetail = () => {
   const { userInfo } = useSelector((state) => state.user);
   const token=userInfo.token
 
+  useEffect(()=>{
+if(!userInfo)
+{
+  navigate('/')
+}
+  },[userInfo])
+
   const userId = userInfo.userExists._id;
   useEffect(() => {
     const storedCoupon = localStorage.getItem("selectedCoupon");
