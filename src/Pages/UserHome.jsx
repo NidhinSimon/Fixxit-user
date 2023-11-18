@@ -17,15 +17,15 @@ const UserHome = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate("/checkout");
-    }
-    else
-    {
-      navigate('/')
-    }
-  }, [ userInfo]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate("/checkout");
+  //   }
+  //   else
+  //   {
+  //     navigate('/')
+  //   }
+  // }, [ userInfo]);
 
 
   
