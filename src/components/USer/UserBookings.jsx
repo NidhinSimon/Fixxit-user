@@ -223,6 +223,7 @@ const UserBookings = () => {
                 </div>
                 <p>{booking.provider}</p>
                 <p>B{booking.otp}</p>
+            
                 <div className="space-x-4">
                   <button
                     onClick={() =>

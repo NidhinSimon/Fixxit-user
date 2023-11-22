@@ -15,7 +15,13 @@ const EmpHome = () => {
 
   useEffect(() => {
     socket.emit("join-provider-room", providerId);
-
+    axios.get(`https://fixxit.shop/requests/${providerId}`)
+      .then((response) => {
+        setRequests(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching requests:", error);
+      });
 
     socket.on("cancel-booking", (data) => {
      
@@ -26,15 +32,13 @@ const EmpHome = () => {
     });
 
     socket.on("new-booking-for-provider", (data) => {
-      console.log(data,"_______________________________________________________________________________________--")
-      const newBooking = data.booking;
-      console.log(newBooking,">>>>>>>>>>>>>>>>>>>>>>>>>...")
-      if (
-        newBooking.status !== "accepted" &&
-        !requests.find((booking) => booking._id === newBooking._id)
-      ) {
+      console.log(data, "_______________________________________________________________________________________--");
+      const newRequest = data.booking;
+      console.log(newRequest, ">>>>>>>>>>>>>>>>>>>>>>>>..."); // <-- Corrected variable name
+    
+      if (!requests.find((request) => request._id === newRequest._id)) {
         toast.success("New booking request received");
-        setRequests((prevRequests) => [...prevRequests, newBooking]);
+        setRequests((prevRequests) => [...prevRequests, newRequest]);
       }
     });
 
@@ -56,27 +60,27 @@ const EmpHome = () => {
     };
   }, [providerId,socket]);
 
-  const handleAccept = (bookingId) => {
-    console.log("ddhgdgdgh",bookingId);
+  const handleAccept = (requestId) => {
+    console.log(requestId,'--------')
     axios
-      .put(`https://fixxit.shop/boookings/accept/${bookingId}`, {
+      .put(`https://fixxit.shop/boookings/accept/${requestId}`, {
         providerId,
       })
       .then((response) => {
-        console.log(response, ">>..");
         if (response.data.success) {
-          toast.success("Booking accepted");
-          // Remove the accepted booking from the UI
+          toast.success("Request accepted");
+          // Remove the accepted request from the UI
           const updatedRequests = requests.filter(
-            (booking) => booking._id !== bookingId
+            (request) => request._id !== requestId
           );
           setRequests(updatedRequests);
         }
       })
       .catch((error) => {
-        console.error("Error accepting booking:", error);
+        console.error("Error accepting request:", error);
       });
   };
+  
 
   const handleReject = (bookingId) => {
     const updatedRequests = requests.filter(
@@ -99,33 +103,36 @@ const EmpHome = () => {
           </div>
         ) : (
           <ul className="space-y-4">
-            {requests.map((booking, index) => (
-              <li
-                key={booking._id}
-                className="bg-white p-4 shadow-md rounded-lg flex flex-col space-y-2"
-              >
-                <div>
-                  <p className=" text-lg text-indigo-500">Service Name: {booking.serviceName}</p>
-                  <p>Name: {booking.userName}</p>
-                  <p>Location: {booking.address}</p>
-                  <p>Total: {booking.Total}</p>
-                </div>
-                <div className="flex justify-between mt-3">
-                  <button
-                    className="bg-green-500 text-white px-3 py-1 rounded"
-                    onClick={() => handleAccept(booking._id)}
-                  >
-                    Accept
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                    onClick={() => handleReject(booking._id)}
-                  >
-                    Reject
-                  </button>
-                </div>
-              </li>
-            ))}
+        {requests.map((booking, index) => (
+  <li
+    key={booking._id}
+    className="bg-white p-4 shadow-md rounded-lg flex flex-col space-y-2"
+  >
+    <div>
+      {booking.serviceName && (
+        <p className="text-lg text-indigo-500">Service Name: {booking.serviceName}</p>
+      )}
+      <p>Name: {booking.userName}</p>
+      <p>Location: {booking.address}</p>
+      <p>Total: {booking.Total}</p>
+    </div>
+    <div className="flex justify-between mt-3">
+      <button
+        className="bg-green-500 text-white px-3 py-1 rounded"
+        onClick={() => handleAccept(booking._id)}
+      >
+        Accept
+      </button>
+      <button
+        className="bg-red-500 text-white px-3 py-1 rounded"
+        onClick={() => handleReject(booking._id)}
+      >
+        Reject
+      </button>
+    </div>
+  </li>
+))}
+
           </ul>
         )}
       </div>
