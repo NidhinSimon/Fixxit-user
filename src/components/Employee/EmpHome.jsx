@@ -17,6 +17,7 @@ const EmpHome = () => {
     socket.emit("join-provider-room", providerId);
     axios.get(`https://fixxit.shop/requests/${providerId}`)
       .then((response) => {
+        console.log(response,"-----------")
         setRequests(response.data);
       })
       .catch((error) => {
