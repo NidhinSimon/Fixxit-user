@@ -17,6 +17,15 @@ const Success = () => {
 
   useEffect(() => {
     let providerInfoTimeout;
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lng: longitude });
+      },
+      (error) => {
+        console.error('Error getting user location:', error);
+      }
+    );
 
     const clearProviderInfo = () => {
       localStorage.removeItem('providerInfo');
@@ -74,16 +83,16 @@ const Success = () => {
           )}
         </div>
         <div className="mt-8">
-          <iframe
-            title="Loading Map"
-            width="600"
-            height="450"
-            frameBorder="0"
-            style={{ border: 0 }}
-            loading="lazy"
-            allowFullScreen
-            src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJGzE9DS1uEmsR1ujjZCmJILY&key=AIzaSyA04gExT_3ABGyN3KoRT70m1PdQ0RDWWVA"
-          ></iframe>
+        <iframe
+              title="User Location Map"
+              width="600"
+              height="450"
+              frameBorder="0"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+              src={`https://www.google.com/maps/embed/v1/place?q=${userLocation.lat},${userLocation.lng}&key=AIzaSyA04gExT_3ABGyN3KoRT70m1PdQ0RDWWVA`}
+            ></iframe>
         </div>
       </div>
     </>
