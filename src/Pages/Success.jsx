@@ -20,8 +20,11 @@ const Success = () => {
     let providerInfoTimeout;
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        console.log(position.coords,'....')
         const { latitude, longitude } = position.coords;
+    
         setUserLocation({ lat: latitude, lng: longitude });
+        console.log(lat,lng,"88888888888888888888")
       },
       (error) => {
         console.error('Error getting user location:', error);
