@@ -8,6 +8,7 @@ import UserNav from './UserNav';
 const Success = () => {
   const [providerInfo, setProviderInfo] = useState(null); // State to hold provider information
   const [loading, setLoading] = useState(true);
+  const [userLocation, setUserLocation] = useState(null);
 
   const socket = io("https://fixxit.shop");
 
