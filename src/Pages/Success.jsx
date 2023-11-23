@@ -31,19 +31,16 @@ const Success = () => {
 
       setProviderInfo(receivedProviderInfo);
 
-      
       clearTimeout(providerInfoTimeout);
     };
 
     socket.on('booking-accepted', handleBookingAccepted);
 
-   
     const loadingTimeout = setTimeout(() => {
       setLoading(false);
-    }, 15000); 
+    }, 15000);
 
     return () => {
-    
       clearTimeout(providerInfoTimeout);
       clearTimeout(loadingTimeout);
     };
@@ -51,36 +48,44 @@ const Success = () => {
 
   return (
     <>
-  <UserNav/>
-   
-    <div className="flex justify-center items-center h-screen">
-      {loading ? ( 
-        <div className="bg-slate-300 w-72 sm:w-96 h-48 rounded-xl flex flex-col justify-center items-center p-4 sm:p-6 lg:p-8 z-10">
-          <span className="loading loading-spinner text-success"></span>
-          <h1 className="text-center text-lg sm:text-xl md:text-xl lg:text-xl">
-            Searching for Providers. Please wait.
-          </h1>
+      <UserNav />
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <div className="bg-white p-8 rounded-xl shadow-md max-w-md">
+          {loading ? (
+            <div className="text-center">
+              <span className="animate-spin text-3xl text-success">&#x21BB;</span>
+              <p className="mt-4">Searching for Providers. Please wait.</p>
+            </div>
+          ) : providerInfo ? (
+            <div className="text-center">
+              <p className="text-xl font-semibold">YAY! WE FOUND OUR BEST EMPLOYEE</p>
+              <div className="profile-info mt-4">
+                {/* Include provider's image if available */}
+                {/* <img src={providerInfo.profileImage} alt="Provider" className="rounded-full h-16 w-16 mx-auto" /> */}
+                <h1 className="text-lg font-semibold">{providerInfo.name}</h1>
+                <p>Phone: {providerInfo.mobile}</p>
+                <p>Age: {providerInfo.age}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center">
+              <p className="text-xl font-semibold">No Providers Found. Please try again later.</p>
+            </div>
+          )}
         </div>
-      ) : providerInfo ? ( // Provider found state
-        <div className="bg-blue-200 w-72 sm:w-96 rounded-xl p-4 sm:p-6 lg:p-8 z-10 ">
-          <h1 className="text-center text-lg sm:text-xl md:text-xl lg:text-xl">
-            YAY ! WE FOUND YOU OUR BEST EMPLOYEEE
-          </h1>
-          <div className="profile-info">
-            {/* <img src={providerInfo.profileImage} alt="Provider" className="rounded-full h-16 w-16" /> */}
-            <h1 className="text-lg font-semibold">{providerInfo.name}</h1>
-            <p>Phone: {providerInfo.mobile}</p>
-           <p>Age:{providerInfo.age}</p>
-          </div>
+        <div className="mt-8">
+          <iframe
+            title="Loading Map"
+            width="600"
+            height="450"
+            frameBorder="0"
+            style={{ border: 0 }}
+            loading="lazy"
+            allowFullScreen
+            src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJGzE9DS1uEmsR1ujjZCmJILY&key=YOUR_GOOGLE_MAPS_API_KEY"
+          ></iframe>
         </div>
-      ) : (
-        <div className="bg-slate-300 w-72 sm:w-96 h-48 rounded-xl flex flex-col justify-center items-center p-4 sm:p-6 lg:p-8 z-10">
-          <h1 className="text-center text-lg sm:text-xl md:text-xl lg:text-xl">
-            No Providers Found. Please try again later.
-          </h1>
-        </div>
-      )}
-    </div>
+      </div>
     </>
   );
 };
