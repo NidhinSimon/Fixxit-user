@@ -2,17 +2,12 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
 import Navbar from './Navbar';
 import UserNav from './UserNav';
-
-import 'leaflet/dist/leaflet.css';
 
 const Success = () => {
   const [providerInfo, setProviderInfo] = useState(null); // State to hold provider information
   const [loading, setLoading] = useState(true);
-  const [userLocation, setUserLocation] = useState(null);
 
   const socket = io("https://fixxit.shop");
 
@@ -25,13 +20,14 @@ const Success = () => {
 
     const clearProviderInfo = () => {
       localStorage.removeItem('providerInfo');
-      setProviderInfo(null);
+      setProviderInfo(null); 
       navigate('/home');
     };
 
     const handleBookingAccepted = (data) => {
-      console.log(data, '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+      console.log(data,'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
       const receivedProviderInfo = data.providerInfo;
+
 
       setProviderInfo(receivedProviderInfo);
 
@@ -44,49 +40,16 @@ const Success = () => {
       setLoading(false);
     }, 15000);
 
-    // Get user's location
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation([latitude, longitude]);
-      },
-      (error) => {
-        console.error('Error getting user location:', error);
-      }
-    );
-
     return () => {
       clearTimeout(providerInfoTimeout);
       clearTimeout(loadingTimeout);
     };
   }, []);
 
-  const providerIcon = new L.Icon({
-    iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-  });
-
   return (
     <>
       <UserNav />
-      <div className="relative flex flex-col items-center justify-center h-screen bg-gray-100">
-        <MapContainer
-          center={userLocation || [0, 0]}
-          zoom={13}
-          style={{ width: '100%', height: '100%', position: 'absolute' }}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          {userLocation && (
-            <Marker position={userLocation} icon={providerIcon}>
-              <Popup>You are here!</Popup>
-            </Marker>
-          )}
-        </MapContainer>
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
         <div className="bg-white p-8 rounded-xl shadow-md max-w-md">
           {loading ? (
             <div className="text-center">
@@ -109,6 +72,18 @@ const Success = () => {
               <p className="text-xl font-semibold">No Providers Found. Please try again later.</p>
             </div>
           )}
+        </div>
+        <div className="mt-8">
+          <iframe
+            title="Loading Map"
+            width="600"
+            height="450"
+            frameBorder="0"
+            style={{ border: 0 }}
+            loading="lazy"
+            allowFullScreen
+            src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJGzE9DS1uEmsR1ujjZCmJILY&key=AIzaSyA04gExT_3ABGyN3KoRT70m1PdQ0RDWWVA"
+          ></iframe>
         </div>
       </div>
     </>
