@@ -8,23 +8,21 @@ import UserNav from './UserNav';
 const Success = () => {
   const [providerInfo, setProviderInfo] = useState(null); // State to hold provider information
   const [loading, setLoading] = useState(true);
-  const [userLocation, setUserLocation] = useState(null);
 
   const socket = io("https://fixxit.shop");
 
   const { userInfo } = useSelector((state) => state.user);
   const userId = userInfo.userExists._id;
   const navigate = useNavigate();
+  const longitude=75.862640
+  const latitude=12.250400
 
   useEffect(() => {
     let providerInfoTimeout;
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position.coords,'....')
         const { latitude, longitude } = position.coords;
-    
         setUserLocation({ lat: latitude, lng: longitude });
-        console.log(lat,lng,"88888888888888888888")
       },
       (error) => {
         console.error('Error getting user location:', error);
@@ -95,7 +93,7 @@ const Success = () => {
               style={{ border: 0 }}
               loading="lazy"
               allowFullScreen
-              src={`https://www.google.com/maps/embed/v1/place?q=${userLocation.lat},${userLocation.lng}&key=AIzaSyA04gExT_3ABGyN3KoRT70m1PdQ0RDWWVA`}
+              src={`https://www.google.com/maps/embed/v1/place?q=${longitude},${latitude}&key=AIzaSyA04gExT_3ABGyN3KoRT70m1PdQ0RDWWVA`}
             ></iframe>
         </div>
       </div>
