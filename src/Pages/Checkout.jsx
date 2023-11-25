@@ -419,7 +419,7 @@ const Checkout = () => {
               ) : (
                 <Button
                   className="bg-orange-400 font-semibold uppercase w-full"
-                  onClick={() => setsidebar(true)} // Open the sidebar
+                  onClick={() => setsidebar(true)} 
                 >
                   Apply coupon
                 </Button>

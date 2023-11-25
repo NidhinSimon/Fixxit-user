@@ -14,13 +14,15 @@ const Sidebarcoupon = ({
   closeSidebar,
 }) => {
   const [available, setavailable] = useState([]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     setVisible(sidebar);
   }, [sidebar]);
   const handleClose = () => {
     setVisible(false);
-    onClose();
+    closeSidebar();
+
   };
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const Sidebarcoupon = ({
     closeSidebar();
   };
 
-  const [visible, setVisible] = useState(false);
+
   return (
     <>
       <Toaster />
@@ -57,9 +59,7 @@ const Sidebarcoupon = ({
           onHide={handleClose}
           className="w-full md:w-20rem lg:w-30rem p-sidebar-md"
         >
-          <div className="flex justify-center">
-            <h1>Apply Coupon</h1>
-          </div>
+         
           <div className="form-control">
             <label className="input-group mt-5">
               <input
@@ -95,8 +95,9 @@ const Sidebarcoupon = ({
               ))}
             </div>
           </div>
+         
         </Sidebar>
-        <Button label="Apply Coupon" onClick={() => setVisible(true)} />
+       
       </div>
     </>
   );
