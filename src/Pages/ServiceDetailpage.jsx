@@ -91,23 +91,44 @@ if(!userInfo)
   const dispatch = useDispatch();
 
   const handleBook = async (service, userId) => {
-    // dispatch(addToCart(service));
+    // Check if the service is already in the cart
+    const isServiceInCart = cart.some((item) => item.serviceId === service._id);
+  
+    if (isServiceInCart) {
+      Swal.fire({
+        title: "Item Already in Cart",
+        text: "Service is already in the cart",
+        icon: "info",
+      });
+      return;
+    }
+  
+    // If not, proceed to add it to the cart
     const cartData = {
       name: service.title,
       price: service.price,
       serviceId: service._id,
     };
-    const res = await add({ cartData, userId }).unwrap();
-    setCart((prevCart) => [...prevCart, cartData]);
-    Swal.fire({
-      title: "Item Added to Cart",
-      text: "Service has been added to the cart",
-      icon: "success",
-    });
-
-    console.log(res, ">>>>>>>>>>>>>>>>>>>>>>>>>>>");
+  
+    try {
+      const res = await add({ cartData, userId }).unwrap();
+      setCart((prevCart) => [...prevCart, cartData]);
+      Swal.fire({
+        title: "Item Added to Cart",
+        text: "Service has been added to the cart",
+        icon: "success",
+      });
+      console.log(res, ">>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    } catch (error) {
+      console.error("Error adding service to cart:", error);
+      Swal.fire({
+        title: "Error",
+        text: "An error occurred while adding the service to the cart",
+        icon: "error",
+      });
+    }
   };
-
+  
   const handleAddToWishlist = async (serviceId) => {
     try {
       const response = await addWishlist(userId,serviceId)
