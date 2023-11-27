@@ -8,6 +8,7 @@ import { FaHeart } from "react-icons/fa";
 import Cart from "./Cart";
 import { useDispatch, useSelector } from "react-redux";
 
+
 import Swal from "sweetalert2";
 import UserNav from "./UserNav";
 import { addToCart } from "../slices/userSlice";
@@ -161,7 +162,7 @@ if(!userInfo)
         });
       }
     } catch (error) {
-      console.error("Error adding service to wishlist:", error);
+      toast.error("Error adding service to wishlist:", error);
     }
   };
   
