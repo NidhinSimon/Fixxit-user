@@ -367,7 +367,7 @@ if(!userInfo)
                         <div className="flex justify-center mt-5">
                           <img
                             className="mix-blend-darken w-3/6 "
-                            src="/src/assets/EmptyCart.png"
+                            src="/EmptyCart.png"
                             alt="dd"
                           />
                         </div>
