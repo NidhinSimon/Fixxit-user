@@ -110,23 +110,31 @@ if(!userInfo)
       serviceId: service._id,
     };
   
-    try {
-      const res = await add({ cartData, userId }).unwrap();
-      setCart((prevCart) => [...prevCart, cartData]);
-      Swal.fire({
-        title: "Item Added to Cart",
-        text: "Service has been added to the cart",
-        icon: "success",
-      });
-      console.log(res, ">>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    } catch (error) {
-      console.error("Error adding service to cart:", error);
-      Swal.fire({
-        title: "Error",
-        text: "An error occurred while adding the service to the cart",
-        icon: "error",
-      });
-    }
+    // Use the callback form of setCart to ensure the latest state
+    setCart((prevCart) => {
+      const updatedCart = [...prevCart, cartData];
+      // Now make the API call
+      add({ cartData, userId })
+        .unwrap()
+        .then((res) => {
+          Swal.fire({
+            title: "Item Added to Cart",
+            text: "Service has been added to the cart",
+            icon: "success",
+          });
+          console.log(res, ">>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        })
+        .catch((error) => {
+          console.error("Error adding service to cart:", error);
+          Swal.fire({
+            title: "Error",
+            text: "An error occurred while adding the service to the cart",
+            icon: "error",
+          });
+        });
+      // Return the updated cart
+      return updatedCart;
+    });
   };
   
   const handleAddToWishlist = async (serviceId) => {
