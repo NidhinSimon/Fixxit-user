@@ -161,7 +161,7 @@ if(!userInfo)
         });
       }
     } catch (error) {
-      toast.error("Item is already in Wishlist", error);
+      toast.error("Item is already in Wishlist");
     }
   };
   
