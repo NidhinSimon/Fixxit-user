@@ -161,7 +161,7 @@ if(!userInfo)
         });
       }
     } catch (error) {
-      console.error("Error adding service to wishlist:", error);
+      toast.error("Item is already in Wishlist", error);
     }
   };
   
