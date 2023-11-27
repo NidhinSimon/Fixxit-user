@@ -28,7 +28,6 @@ const ServiceDetail = () => {
   const [sidebar, setsidebar] = useState(false);
   const [selectedCoupon, setSelectedcoupon] = useState(null);
   const [total, setotal] = useState(0);
-  const [wishlist, setWishlist] = useState([]); 
 
   const [add] = useAddCartMutation();
 
@@ -140,33 +139,9 @@ if(!userInfo)
   
   const handleAddToWishlist = async (serviceId) => {
     try {
-      // Check if userInfo is defined
-      if (!userInfo) {
-        // Handle the case where userInfo is not defined (e.g., user is not logged in)
-        Swal.fire({
-          icon: 'error',
-          title: 'Not Logged In',
-          text: 'Please log in to add services to your wishlist.',
-        });
-        return;
-      }
-  
-      // Check if the service is already in the wishlist
-      if (userInfo.wishlist && userInfo.wishlist.includes(serviceId)) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Already in Wishlist',
-          text: 'This service is already in your wishlist.',
-        });
-        return;
-      }
-  
-      // Make an API call to add the service to the wishlist
-      const response = await addWishlist(userId, serviceId);
-  
+      const response = await addWishlist(userId,serviceId)
+  console.log(response,'------------------------')
       if (response.status === 200) {
-        // Update the client-side state if the API call is successful
-        setWishlist((prevWishlist) => [...prevWishlist, serviceId]);
         Swal.fire({
           icon: 'success',
           title: 'Added to Wishlist',
@@ -189,7 +164,6 @@ if(!userInfo)
       console.error("Error adding service to wishlist:", error);
     }
   };
-  
   
 
   const handleRemove = async (item) => {
@@ -393,7 +367,7 @@ if(!userInfo)
                         <div className="flex justify-center mt-5">
                           <img
                             className="mix-blend-darken w-3/6 "
-                            src="/EmptyCart.png"
+                            src="/src/assets/EmptyCart.png"
                             alt="dd"
                           />
                         </div>
