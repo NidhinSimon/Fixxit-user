@@ -139,8 +139,19 @@ if(!userInfo)
   
   const handleAddToWishlist = async (serviceId) => {
     try {
+      // Check if userInfo is defined
+      if (!userInfo) {
+        // Handle the case where userInfo is not defined (e.g., user is not logged in)
+        Swal.fire({
+          icon: 'error',
+          title: 'Not Logged In',
+          text: 'Please log in to add services to your wishlist.',
+        });
+        return;
+      }
+  
       // Check if the service is already in the wishlist
-      if (userInfo.wishlist.includes(serviceId)) {
+      if (userInfo.wishlist && userInfo.wishlist.includes(serviceId)) {
         Swal.fire({
           icon: 'error',
           title: 'Already in Wishlist',
@@ -177,6 +188,7 @@ if(!userInfo)
       console.error("Error adding service to wishlist:", error);
     }
   };
+  
   
 
   const handleRemove = async (item) => {
@@ -380,7 +392,7 @@ if(!userInfo)
                         <div className="flex justify-center mt-5">
                           <img
                             className="mix-blend-darken w-3/6 "
-                            src="/src/assets/EmptyCart.png"
+                            src="/EmptyCart.png"
                             alt="dd"
                           />
                         </div>
