@@ -28,6 +28,7 @@ const ServiceDetail = () => {
   const [sidebar, setsidebar] = useState(false);
   const [selectedCoupon, setSelectedcoupon] = useState(null);
   const [total, setotal] = useState(0);
+  const [wishlist, setWishlist] = useState([]); 
 
   const [add] = useAddCartMutation();
 
