@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Spinner from "./Spinner";
-
 import io from "socket.io-client";
 import OtpModal from "./EmpOptModal/OtpModal";
-import toast,{Toaster} from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast";
 import { cancelBooking } from "../../api/empApi";
 import { useNavigate } from "react-router-dom";
 
@@ -14,24 +13,21 @@ const UpcomingBookings = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [id, setId] = useState("");
-
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [otp, setOtp] = useState("");
 
   const { providerInfo } = useSelector((state) => state.employee);
-  const providerId = providerInfo.provider._id;
+  const providerId = providerInfo?.provider?._id;
 
   const socket = io("https://fixxit.shop");
 
-const navigate=useNavigate()
+  const navigate = useNavigate();
 
-  useEffect(()=>{
-if(!providerInfo )
-{
-  navigate('/emplogin')
-}
-  },[])
+  useEffect(() => {
+    if (!providerInfo) {
+      navigate("/emplogin");
+    }
+  }, [providerInfo, navigate]);
 
   useEffect(() => {
     axios
@@ -42,21 +38,29 @@ if(!providerInfo )
         const acceptedBookings = data.filter(
           (booking) => booking.status === "accepted"
         );
-        
-      
+
         const upcomingBookingsFiltered = acceptedBookings.filter(
           (booking) => booking.workStatus !== "completed"
         );
-  
-        setUpcomingBookings(upcomingBookingsFiltered);
+
+        // Sort the bookings by date in ascending order
+        const sortedBookings = upcomingBookingsFiltered.sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          return dateA - dateB;
+        });
+
+        setUpcomingBookings(sortedBookings);
         setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching upcoming bookings:", error);
-        setError("Failed to fetch upcoming bookings. Please try again later.");
+        setError(
+          "Failed to fetch upcoming bookings. Please try again later."
+        );
         setLoading(false);
       });
-  
+
     socket.on("bookingAccepted", (bookingId) => {
       const updatedBookings = upcomingBookings.map((booking) => {
         if (booking._id === bookingId) {
@@ -66,42 +70,37 @@ if(!providerInfo )
       });
       setUpcomingBookings(updatedBookings);
     });
-  
+
     socket.on("newBooking", (newBooking) => {
       if (newBooking.status === "accepted") {
         setUpcomingBookings([...upcomingBookings, newBooking]);
       }
     });
-  
+
     return () => {
       socket.disconnect();
     };
-  }, [providerId, upcomingBookings]);
-  
+  }, [providerId, upcomingBookings, socket]);
 
-
-  
   const handleCancel = async (bookingId) => {
     try {
-      const response = await cancelBooking(bookingId)
+      const response = await cancelBooking(bookingId);
       if (response.data.success) {
-        const updatedBookings = upcomingBookings.filter((booking) => booking._id !== bookingId);
+        const updatedBookings = upcomingBookings.filter(
+          (booking) => booking._id !== bookingId
+        );
         setUpcomingBookings(updatedBookings);
-  
-      
-        toast.success("Booking canceled successfully");
 
+        toast.success("Booking canceled successfully");
         console.log("Booking canceled successfully");
       } else {
-   
         console.error("Booking cancellation failed");
       }
     } catch (error) {
       console.error("Error canceling booking:", error);
-
     }
   };
-  
+
   const isBookingToday = (bookingDate) => {
     const currentDate = new Date();
     const bookingDateTime = new Date(bookingDate);
@@ -162,7 +161,9 @@ if(!providerInfo )
                   </div>
                   {isBookingToday(booking.date) ? (
                     booking.workStatus === "accepted" ? (
-                      <p className="text-sm text-green-600">Booking is accepted</p>
+                      <p className="text-sm text-green-600">
+                        Booking is accepted
+                      </p>
                     ) : (
                       <button
                         onClick={() => handleOpen(booking._id)}
