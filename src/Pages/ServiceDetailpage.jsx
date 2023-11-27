@@ -91,7 +91,7 @@ if(!userInfo)
   const dispatch = useDispatch();
 
   const handleBook = async (service, userId) => {
-    // Check if the service is already in the cart
+  
     const isServiceInCart = cart.some((item) => item.serviceId === service._id);
   
     if (isServiceInCart) {
@@ -103,17 +103,17 @@ if(!userInfo)
       return;
     }
   
-    // If not, proceed to add it to the cart
+  
     const cartData = {
       name: service.title,
       price: service.price,
       serviceId: service._id,
     };
   
-    // Use the callback form of setCart to ensure the latest state
+  
     setCart((prevCart) => {
       const updatedCart = [...prevCart, cartData];
-      // Now make the API call
+    
       add({ cartData, userId })
         .unwrap()
         .then((res) => {
@@ -132,16 +132,29 @@ if(!userInfo)
             icon: "error",
           });
         });
-      // Return the updated cart
+    
       return updatedCart;
     });
   };
   
   const handleAddToWishlist = async (serviceId) => {
     try {
-      const response = await addWishlist(userId,serviceId)
+      // Check if the service is already in the wishlist
+      if (userInfo.wishlist.includes(serviceId)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Already in Wishlist',
+          text: 'This service is already in your wishlist.',
+        });
+        return;
+      }
+  
+      // Make an API call to add the service to the wishlist
+      const response = await addWishlist(userId, serviceId);
   
       if (response.status === 200) {
+        // Update the client-side state if the API call is successful
+        setWishlist((prevWishlist) => [...prevWishlist, serviceId]);
         Swal.fire({
           icon: 'success',
           title: 'Added to Wishlist',
