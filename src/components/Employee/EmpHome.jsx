@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { acceptBooking } from "../../api/empApi";
+import EmpNavbar from "./EmpNavbar/EmpNavbar";
 
 const EmpHome = () => {
   const { providerInfo } = useSelector((state) => state.employee);
@@ -93,7 +94,7 @@ const EmpHome = () => {
   return (
     <>
       <Toaster />
-      <Navbar />
+      <EmpNavbar/>
       <div className="container mx-auto mt-6">
         <h2 className="text-2xl font-bold mb-4">Booking List</h2>
         {requests.length === 0 ? (
