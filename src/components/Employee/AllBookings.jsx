@@ -25,7 +25,7 @@ if(!providerInfo)
   useEffect(() => {
     
     axios
-      .get(`https://fixxit.shop/allbookings/${providerId}`,)
+      .get(`https://fixxit-server-1.onrender.com/allbookings/${providerId}`,)
       .then((response) => {
         console.log(response, "..");
         setBookings(response.data);
@@ -41,7 +41,7 @@ if(!providerInfo)
     try {
       console.log(bookingId, "...");
       const response = await axios.post(
-        `https://fixxit.shop/cancel/${bookingId}`
+        `https://fixxit-server-1.onrender.com/cancel/${bookingId}`
       );
       console.log(response, ">>>>>>>>>>>>>");
       if (response.data.success) {

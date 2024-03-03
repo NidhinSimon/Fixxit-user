@@ -27,7 +27,7 @@ const Sidebarcoupon = ({
 
   useEffect(() => {
     const coupon = async () => {
-      const res = await axios.get("https://fixxit.shop/admin/getcoupon");
+      const res = await axios.get("https://fixxit-server-1.onrender.com/admin/getcoupon");
       console.log(res);
 
       setavailable(res.data);

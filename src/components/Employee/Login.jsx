@@ -39,7 +39,7 @@ const Login = () => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await axios.post("https://fixxit.shop/providerlogin", {
+        const res = await axios.post("https://fixxit-server-1.onrender.com/providerlogin", {
           mobile: values.mobile,
         });
         dispatch(setProviderInfo(res.data));

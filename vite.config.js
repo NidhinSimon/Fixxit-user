@@ -9,7 +9,7 @@ export default defineConfig({
     port:3000,
     proxy:{
       '/users':{ 
-        target:'https://fixxit.shop',
+        target:'https://fixxit-server-1.onrender.com',
         changeOrigin:true
     
       }

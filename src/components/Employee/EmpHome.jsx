@@ -11,12 +11,12 @@ const EmpHome = () => {
   const { providerInfo } = useSelector((state) => state.employee);
   const providerId = providerInfo.provider._id;
 
-  const socket = io("https://fixxit.shop");
+  const socket = io("https://fixxit-server-1.onrender.com");
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     socket.emit("join-provider-room", providerId);
-    axios.get(`https://fixxit.shop/requests/${providerId}`)
+    axios.get(`https://fixxit-server-1.onrender.com/requests/${providerId}`)
       .then((response) => {
         console.log(response,"-----------")
         setRequests(response.data);
@@ -65,7 +65,7 @@ const EmpHome = () => {
   const handleAccept = (requestId) => {
     console.log(requestId,'--------')
     axios
-      .put(`https://fixxit.shop/boookings/accept/${requestId}`, {
+      .put(`https://fixxit-server-1.onrender.com/boookings/accept/${requestId}`, {
         providerId,
       })
       .then((response) => {

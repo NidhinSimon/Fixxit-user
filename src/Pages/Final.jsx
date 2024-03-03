@@ -11,7 +11,7 @@ const Final = () => {
 
      useEffect(() => {
           const servicesFetch = async () => {
-            const res = await axios.get(`https://fixxit.shop/users/services/${id}`);
+            const res = await axios.get(`https://fixxit-server-1.onrender.com/users/services/${id}`);
             console.log(res, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.");
             setServices(res.data);
           }

@@ -50,7 +50,7 @@ const Checkout = () => {
   const fetchUserAddresses = async () => {
     try {
       const res = await axios.get(
-        `https://fixxit.shop/users/addresses/${userId}`
+        `https://fixxit-server-1.onrender.com/users/addresses/${userId}`
       );
       setUserAddresses(res.data);
     } catch (error) {
@@ -153,7 +153,7 @@ const Checkout = () => {
 
   useEffect(() => {
     const cartfetch = async () => {
-      const res = await axios.get(`https://fixxit.shop/users/cart/${userid}`);
+      const res = await axios.get(`https://fixxit-server-1.onrender.com/users/cart/${userid}`);
       setCart(res.data);
       const total = calculateTotalAmount();
       setTotalAmount(total);
@@ -202,7 +202,7 @@ const Checkout = () => {
     );
 
     await axios
-      .post("https://fixxit.shop/checkout", {
+      .post("https://fixxit-server-1.onrender.com/checkout", {
         userId: userid,
         cart,
         total: selectedCoupon

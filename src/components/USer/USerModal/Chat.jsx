@@ -9,7 +9,7 @@ import Chatbox from "../ChatBox/ChatbOx";
 import UserNav from "../../../Pages/UserNav";
 
 const Chat = () => {
-  // const socket=io("https://fixxit.shop")
+  // const socket=io("https://fixxit-server-1.onrender.com")
   const { userInfo } = useSelector((state) => state.user);
 
   const userId = userInfo.userExists._id;
@@ -35,7 +35,7 @@ const Chat = () => {
   }, [userInfo]);
 
   useEffect(() => {
-    socket.current = io("https://fixxit.shop");
+    socket.current = io("https://fixxit-server-1.onrender.com");
     socket.current.emit("new-user-add", userInfo.userExists._id);
     socket.current.on("get-users", (users) => {
       console.log(users, ">>>>>>>>>>>>");

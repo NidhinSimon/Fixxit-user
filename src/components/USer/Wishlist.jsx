@@ -11,7 +11,7 @@ const Wishlist = () => {
 
   useEffect(() => {
     axios
-      .get(`https://fixxit.shop/users/wishlist/${userId}`)
+      .get(`https://fixxit-server-1.onrender.com/users/wishlist/${userId}`)
       .then((response) => {
         setWishlist(response.data);
       })
@@ -29,7 +29,7 @@ const Wishlist = () => {
       serviceId: item._id,
     };
 
-    const res = await axios.post(`https://fixxit.shop/users/cart`, {
+    const res = await axios.post(`https://fixxit-server-1.onrender.com/users/cart`, {
       cartData,
       userId,
     });
@@ -41,7 +41,7 @@ const Wishlist = () => {
     console.log(itemId,'---')
     try {
     
-      await axios.delete(`https://fixxit.shop/users/wishlist/${userId}/${itemId}`);
+      await axios.delete(`https://fixxit-server-1.onrender.com/users/wishlist/${userId}/${itemId}`);
 
 
       setWishlist((prevWishlist) => prevWishlist.filter(item => item._id !== itemId));

@@ -56,7 +56,7 @@ if(!userInfo)
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      const res = await axios.get("https://fixxit.shop/admin/getcoupon",{headers});
+      const res = await axios.get("https://fixxit-server-1.onrender.com/admin/getcoupon",{headers});
 
       setavailable(res.data);
     };
@@ -79,7 +79,7 @@ if(!userInfo)
       setServices(res.data);
 
       const response = await axios.get(
-        `https://fixxit.shop/users/categoryname/${id}`
+        `https://fixxit-server-1.onrender.com/users/categoryname/${id}`
       );
       console.log(response, "---------------------------------");
       setCategory(response.data.name);

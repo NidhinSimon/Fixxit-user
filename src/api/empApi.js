@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API=axios.create({baseURL:'https://fixxit.shop'})
+const API=axios.create({baseURL:'https://fixxit-server-1.onrender.com'})
 
 
 

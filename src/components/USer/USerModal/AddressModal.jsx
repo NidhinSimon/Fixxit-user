@@ -16,7 +16,7 @@ const AddressModal = ({ setSelectedAddress, onClose }) => {
 
   const fetchAddresses = async () => {
     try {
-      const res = await axios.get(`https://fixxit.shop/users/addresses/${userId}`);
+      const res = await axios.get(`https://fixxit-server-1.onrender.com/users/addresses/${userId}`);
       if (Array.isArray(res.data.addresses)) {
         setAddresses(res.data.addresses);
       } else {

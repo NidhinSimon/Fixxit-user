@@ -9,7 +9,7 @@ const Success = () => {
   const [providerInfo, setProviderInfo] = useState(null); // State to hold provider information
   const [loading, setLoading] = useState(true);
 
-  const socket = io("https://fixxit.shop");
+  const socket = io("https://fixxit-server-1.onrender.com");
 
   const { userInfo } = useSelector((state) => state.user);
   const userId = userInfo.userExists._id;

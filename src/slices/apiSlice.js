@@ -4,7 +4,7 @@ import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 
 const baseQuery=fetchBaseQuery({
-    baseUrl:'https://fixxit.shop'
+    baseUrl:'https://fixxit-server-1.onrender.com'
 })
 
 

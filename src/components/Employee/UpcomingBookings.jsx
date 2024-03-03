@@ -19,7 +19,7 @@ const UpcomingBookings = () => {
   const { providerInfo } = useSelector((state) => state.employee);
   const providerId = providerInfo?.provider?._id;
 
-  const socket = io("https://fixxit.shop");
+  const socket = io("https://fixxit-server-1.onrender.com");
 
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const UpcomingBookings = () => {
 
   useEffect(() => {
     axios
-      .get(`https://fixxit.shop/upcoming/${providerId}`)
+      .get(`https://fixxit-server-1.onrender.com/upcoming/${providerId}`)
       .then((response) => {
         const data = response.data;
         console.log(data, ">");

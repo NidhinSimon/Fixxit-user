@@ -187,7 +187,7 @@ const LoginScreen = () => {
    
 
 console.log(gmail,">>>")
-  //  const response=await axios.post('https://fixxit.shop/users/verifyGooglelogin',email)
+  //  const response=await axios.post('https://fixxit-server-1.onrender.com/users/verifyGooglelogin',email)
   //  console.log(response,"???/")
 const res=await googleLogin({email}).unwrap()
 console.log(res,";")

@@ -36,7 +36,7 @@ const Modal = ({ closemodal, handlelocation }) => {
 
     setIsLoadingSelectAddress(true);
 
-    const res = await axios.post("https://fixxit.shop/users/saveaddress", {
+    const res = await axios.post("https://fixxit-server-1.onrender.com/users/saveaddress", {
       userid,
       address,
       longitude,

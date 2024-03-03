@@ -31,7 +31,7 @@ const UserBookings = () => {
 
   const [viewDetails, setView] = useState(false);
 
-  const socket = io("https://fixxit.shop");
+  const socket = io("https://fixxit-server-1.onrender.com");
   const handleReport = (providerId) => {
     console.log("sisisiusiui");
     setProviderIdToReport(providerId);
@@ -46,7 +46,7 @@ const UserBookings = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://fixxit.shop/users/bookings/${userId}`
+        `https://fixxit-server-1.onrender.com/users/bookings/${userId}`
       );
       console.log(response, ">>>>");
       if (response.status === 200) {
@@ -76,7 +76,7 @@ const UserBookings = () => {
   const handleCancel = async (id) => {
     try {
       const response = await axios.post(
-        `https://fixxit.shop/users/canceluser/${id}`
+        `https://fixxit-server-1.onrender.com/users/canceluser/${id}`
       );
 
       if (response.data.success) {
@@ -103,7 +103,7 @@ const UserBookings = () => {
     console.log("djdgjdgj");
     try {
       const response = await axios.post(
-        `https://fixxit.shop/users/reportProvider/${providerIdToReport}`,
+        `https://fixxit-server-1.onrender.com/users/reportProvider/${providerIdToReport}`,
         {
           reportReason,
           userId,
@@ -141,7 +141,7 @@ const UserBookings = () => {
   const openChat = async (booking) => {
     try {
       // Make an API request to create a chat between the user and provider
-      const response = await axios.post("https://fixxit.shop/chat", {
+      const response = await axios.post("https://fixxit-server-1.onrender.com/chat", {
         userId: userInfo.userExists._id,
         providerId: booking.provider, // Replace with the actual provider ID
       });
